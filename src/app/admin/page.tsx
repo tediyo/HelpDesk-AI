@@ -8,6 +8,7 @@ export default function AdminPage() {
   const [message, setMessage] = useState('');
   const [existingFiles, setExistingFiles] = useState<string[]>([]);
   const [evaluationResults, setEvaluationResults] = useState<any>(null);
+  const [showDetailedResults, setShowDetailedResults] = useState(false);
   const [runningEval, setRunningEval] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,7 +100,7 @@ export default function AdminPage() {
 
       if (response.ok) {
         setEvaluationResults(result);
-        setMessage(`Evaluation completed: ${result.summary.passedTests}/${result.summary.totalTests} tests passed (${result.summary.successRate}%)`);
+        setMessage(`Enhanced evaluation completed: ${result.summary.passedTests}/${result.summary.totalTests} tests passed (${result.summary.successRate}%)`);
       } else {
         setMessage(`Evaluation failed: ${result.error}`);
       }
@@ -108,6 +109,27 @@ export default function AdminPage() {
     } finally {
       setRunningEval(false);
     }
+  };
+
+  const handleExportEvaluation = () => {
+    if (!evaluationResults) return;
+    
+    const exportData = {
+      timestamp: new Date().toISOString(),
+      summary: evaluationResults.summary,
+      results: evaluationResults.results
+    };
+    
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `evaluation-report-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   // Load existing files on component mount
@@ -173,50 +195,159 @@ export default function AdminPage() {
           {/* Evaluation Results */}
           {evaluationResults && (
             <div className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">Evaluation Results</h2>
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600">{evaluationResults.summary.totalTests}</div>
-                    <div className="text-sm text-gray-600">Total Tests</div>
-                  </div>
-                  <div className="text-center">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-800">Enhanced Evaluation Results</h2>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleExportEvaluation}
+                    className="px-3 py-1 bg-green-600 text-white rounded-md text-sm hover:bg-green-700"
+                  >
+                    📊 Export Report
+                  </button>
+                  <button
+                    onClick={() => setShowDetailedResults(!showDetailedResults)}
+                    className="px-3 py-1 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700"
+                  >
+                    {showDetailedResults ? 'Hide Details' : 'Show Details'}
+                  </button>
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-200 p-6">
+                {/* Summary Cards */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
                     <div className="text-2xl font-bold text-green-600">{evaluationResults.summary.passedTests}</div>
-                    <div className="text-sm text-gray-600">Passed</div>
+                    <div className="text-sm text-gray-600">Tests Passed</div>
+                    <div className="text-xs text-gray-500">out of {evaluationResults.summary.totalTests}</div>
                   </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-red-600">{evaluationResults.summary.failedTests}</div>
-                    <div className="text-sm text-gray-600">Failed</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-purple-600">{evaluationResults.summary.successRate}%</div>
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                    <div className="text-2xl font-bold text-blue-600">{evaluationResults.summary.successRate}%</div>
                     <div className="text-sm text-gray-600">Success Rate</div>
+                    <div className="text-xs text-gray-500">overall performance</div>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                    <div className="text-2xl font-bold text-purple-600">{evaluationResults.summary.avgResponseTime}ms</div>
+                    <div className="text-sm text-gray-600">Avg Response Time</div>
+                    <div className="text-xs text-gray-500">retrieval + generation</div>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                    <div className="text-2xl font-bold text-orange-600">{Math.round(evaluationResults.summary.avgConfidenceScore * 100)}%</div>
+                    <div className="text-sm text-gray-600">Confidence Score</div>
+                    <div className="text-xs text-gray-500">response quality</div>
                   </div>
                 </div>
-                
-                <div className="space-y-2">
-                  {evaluationResults.results.map((result: any, index: number) => (
-                    <div key={index} className={`p-3 rounded border-l-4 ${
-                      result.success ? 'bg-green-50 border-green-400' : 'bg-red-50 border-red-400'
-                    }`}>
-                      <div className="flex justify-between items-start">
+
+                {/* Performance Metrics */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  {/* Category Breakdown */}
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                    <h4 className="font-semibold text-gray-800 mb-3">Performance by Category</h4>
+                    {Object.entries(evaluationResults.summary.categoryStats || {}).map(([category, stats]: [string, any]) => (
+                      <div key={category} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
                         <div>
-                          <div className="font-medium">{result.description}</div>
-                          <div className="text-sm text-gray-600">{result.question}</div>
+                          <span className="font-medium capitalize">{category}</span>
+                          <div className="text-xs text-gray-500">{stats.passed}/{stats.total} tests</div>
                         </div>
-                        <div className={`px-2 py-1 rounded text-xs font-medium ${
-                          result.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                        }`}>
-                          {result.success ? 'PASS' : 'FAIL'}
+                        <div className="text-right">
+                          <div className="text-sm font-medium">{stats.successRate}%</div>
+                          <div className="text-xs text-gray-500">{stats.avgTime}ms avg</div>
                         </div>
                       </div>
-                      <div className="text-xs text-gray-500 mt-1">
-                        Expected: {result.expectedSources.join(', ')} | 
-                        Found: {result.sourcesFound.join(', ')}
+                    ))}
+                  </div>
+
+                  {/* Difficulty Breakdown */}
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                    <h4 className="font-semibold text-gray-800 mb-3">Performance by Difficulty</h4>
+                    {Object.entries(evaluationResults.summary.difficultyStats || {}).map(([difficulty, stats]: [string, any]) => (
+                      <div key={difficulty} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                        <div>
+                          <span className="font-medium capitalize">{difficulty}</span>
+                          <div className="text-xs text-gray-500">{stats.passed}/{stats.total} tests</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-medium">{stats.successRate}%</div>
+                          <div className="text-xs text-gray-500">{stats.avgTime}ms avg</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Best/Worst Tests */}
+                {evaluationResults.summary.bestTest && evaluationResults.summary.worstTest && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                      <h4 className="font-semibold text-green-800 mb-2"> Best Performing Test</h4>
+                      <p className="text-sm text-green-700 mb-1">{evaluationResults.summary.bestTest.question}</p>
+                      <div className="text-xs text-green-600">
+                        Overall Score: {Math.round(evaluationResults.summary.bestTest.overallScore * 100)}%
                       </div>
                     </div>
-                  ))}
-                </div>
+                    <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+                      <h4 className="font-semibold text-red-800 mb-2">⚠️ Needs Improvement</h4>
+                      <p className="text-sm text-red-700 mb-1">{evaluationResults.summary.worstTest.question}</p>
+                      <div className="text-xs text-red-600">
+                        Overall Score: {Math.round(evaluationResults.summary.worstTest.overallScore * 100)}%
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Detailed Results */}
+                {showDetailedResults && (
+                  <div className="mt-6">
+                    <h4 className="font-semibold text-gray-800 mb-4">Detailed Test Results</h4>
+                    <div className="space-y-4">
+                      {evaluationResults.results.map((result: any, index: number) => (
+                        <div key={index} className="bg-white p-4 rounded-lg border shadow-sm">
+                          <div className="flex justify-between items-start mb-2">
+                            <div className="flex-1">
+                              <p className="font-medium text-gray-800">{result.question}</p>
+                              <p className="text-sm text-gray-600 mb-2">{result.description}</p>
+                              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+                                <div>
+                                  <span className="font-medium">Category:</span> {result.category}
+                                </div>
+                                <div>
+                                  <span className="font-medium">Difficulty:</span> {result.difficulty}
+                                </div>
+                                <div>
+                                  <span className="font-medium">Time:</span> {result.totalTime}ms
+                                </div>
+                                <div>
+                                  <span className="font-medium">Confidence:</span> {Math.round(result.confidenceScore * 100)}%
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex flex-col items-end space-y-1">
+                              <span className={`px-2 py-1 rounded text-xs font-medium ${
+                                result.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                              }`}>
+                                {result.success ? 'PASS' : 'FAIL'}
+                              </span>
+                              <div className="text-xs text-gray-500">
+                                Score: {Math.round(((result.performanceScore + result.confidenceScore + result.sourceRelevanceScore) / 3) * 100)}%
+                              </div>
+                            </div>
+                          </div>
+                          <div className="mt-3 pt-3 border-t border-gray-100">
+                            <div className="text-xs text-gray-600 mb-1">
+                              <span className="font-medium">Expected Sources:</span> {result.expectedSources.join(', ')}
+                            </div>
+                            <div className="text-xs text-gray-600">
+                              <span className="font-medium">Found Sources:</span> {result.sourcesFound.join(', ')}
+                            </div>
+                            <div className="text-xs text-gray-600 mt-1">
+                              <span className="font-medium">Response:</span> {result.response}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
