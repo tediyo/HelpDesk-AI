@@ -140,29 +140,29 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <div className="flex-1 py-8">
-        <div className="max-w-7xl mx-auto px-4">
-        {/* Header */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Rate Limit Analytics</h1>
-              <p className="text-gray-600 mt-2">Real-time monitoring and usage statistics</p>
-            </div>
-            <div className="flex items-center gap-3">
-              {/* Quick Links Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => setShowQuickLinksModal(!showQuickLinksModal)}
-                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl hover:from-indigo-600 hover:to-indigo-700 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
-                >
-                  <span>🔗</span>
-                  <span>Quick Links</span>
-                  <svg className={`w-4 h-4 transition-transform duration-200 ${showQuickLinksModal ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
+        <div className="min-h-screen bg-gray-50 flex flex-col">
+          <div className="flex-1 py-4 sm:py-8">
+            <div className="max-w-7xl mx-auto px-3 sm:px-4">
+            {/* Header */}
+            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 sm:gap-0">
+                <div>
+                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Rate Limit Analytics</h1>
+                  <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">Real-time monitoring and usage statistics</p>
+                </div>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+                  {/* Quick Links Dropdown */}
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowQuickLinksModal(!showQuickLinksModal)}
+                      className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl hover:from-indigo-600 hover:to-indigo-700 text-xs sm:text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200 w-full sm:w-auto"
+                    >
+                      <span>🔗</span>
+                      <span>Quick Links</span>
+                      <svg className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200 ${showQuickLinksModal ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
                 
                 {/* Dropdown Menu */}
                 {showQuickLinksModal && (
@@ -227,189 +227,189 @@ export default function AnalyticsPage() {
                 )}
               </div>
               
-              {/* Control Buttons */}
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-xl">
-                  <input
-                    type="checkbox"
-                    checked={autoRefresh}
-                    onChange={(e) => setAutoRefresh(e.target.checked)}
-                    className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                  />
-                  <span className="text-sm text-gray-700 font-medium">Auto-refresh</span>
-                </div>
-                
-                <button
-                  onClick={fetchAnalytics}
-                  className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
-                >
-                  🔄 Refresh
-                </button>
-                <button
-                  onClick={resetStats}
-                  className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
-                >
-                  🗑️ Reset
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* System Health */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">System Status</p>
-                <p className={`text-2xl font-bold ${getStatusColor(analytics.systemHealth.status).split(' ')[0]}`}>
-                  {analytics.systemHealth.status.toUpperCase()}
-                </p>
-              </div>
-              <div className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(analytics.systemHealth.status)}`}>
-                {analytics.systemHealth.status}
-              </div>
-            </div>
-          </div>
-          
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <div>
-              <p className="text-sm font-medium text-gray-600">Total Requests</p>
-              <p className="text-2xl font-bold text-blue-600">{analytics.totalRequests.toLocaleString()}</p>
-            </div>
-          </div>
-          
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <div>
-              <p className="text-sm font-medium text-gray-600">Blocked Requests</p>
-              <p className="text-2xl font-bold text-red-600">{analytics.totalBlocked.toLocaleString()}</p>
-              <p className="text-sm text-gray-500">{analytics.systemHealth.blockedPercentage}% of total</p>
-            </div>
-          </div>
-          
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <div>
-              <p className="text-sm font-medium text-gray-600">Unique IPs</p>
-              <p className="text-2xl font-bold text-purple-600">{analytics.uniqueIPs}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Performance Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Request Rate</h3>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Average/min</span>
-                <span className="font-medium">{analytics.averageRequestsPerMinute}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Peak/min</span>
-                <span className="font-medium">{analytics.peakRequestsPerMinute}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Success Rate</h3>
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-gray-600">Allowed</span>
-                <span className="font-medium text-green-600">{analytics.totalAllowed.toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600">Blocked</span>
-                <span className="font-medium text-red-600">{analytics.totalBlocked.toLocaleString()}</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className="bg-green-600 h-2 rounded-full" 
-                  style={{ width: `${100 - analytics.systemHealth.blockedPercentage}%` }}
-                ></div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Top IPs</h3>
-            <div className="space-y-2">
-              {analytics.topIPs.slice(0, 5).map((ip, index) => (
-                <div key={ip.ip} className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600 truncate">{ip.ip}</span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium">{ip.requests}</span>
-                    <div className="w-16 bg-gray-200 rounded-full h-1">
-                      <div 
-                        className="bg-blue-600 h-1 rounded-full" 
-                        style={{ width: `${ip.percentage}%` }}
-                      ></div>
+                  {/* Control Buttons */}
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                    <div className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-gray-100 rounded-xl">
+                      <input
+                        type="checkbox"
+                        checked={autoRefresh}
+                        onChange={(e) => setAutoRefresh(e.target.checked)}
+                        className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600 rounded focus:ring-blue-500"
+                      />
+                      <span className="text-xs sm:text-sm text-gray-700 font-medium">Auto-refresh</span>
                     </div>
+                    
+                    <button
+                      onClick={fetchAnalytics}
+                      className="px-3 sm:px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 text-xs sm:text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                    >
+                      🔄 Refresh
+                    </button>
+                    <button
+                      onClick={resetStats}
+                      className="px-3 sm:px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 text-xs sm:text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                    >
+                      🗑️ Reset
+                    </button>
+                  </div>
+            </div>
+          </div>
+        </div>
+
+            {/* System Health */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+              <div className="bg-white p-3 sm:p-6 rounded-lg shadow-md">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+                  <div>
+                    <p className="text-xs sm:text-sm font-medium text-gray-600">System Status</p>
+                    <p className={`text-lg sm:text-2xl font-bold ${getStatusColor(analytics.systemHealth.status).split(' ')[0]}`}>
+                      {analytics.systemHealth.status.toUpperCase()}
+                    </p>
+                  </div>
+                  <div className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getStatusColor(analytics.systemHealth.status)}`}>
+                    {analytics.systemHealth.status}
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Hourly Stats Chart */}
-        <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">24-Hour Activity</h3>
-          <div className="grid grid-cols-12 gap-2">
-            {analytics.hourlyStats.map((hour, index) => (
-              <div key={index} className="text-center">
-                <div className="text-xs text-gray-500 mb-1">{hour.hour}</div>
-                <div className="space-y-1">
-                  <div 
-                    className="bg-blue-600 rounded-sm" 
-                    style={{ height: `${Math.max(2, (hour.requests / Math.max(...analytics.hourlyStats.map(h => h.requests))) * 40)}px` }}
-                    title={`${hour.requests} requests`}
-                  ></div>
-                  <div className="text-xs text-gray-400">{hour.requests}</div>
+              </div>
+              
+              <div className="bg-white p-3 sm:p-6 rounded-lg shadow-md">
+                <div>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Total Requests</p>
+                  <p className="text-lg sm:text-2xl font-bold text-blue-600">{analytics.totalRequests.toLocaleString()}</p>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
+              
+              <div className="bg-white p-3 sm:p-6 rounded-lg shadow-md">
+                <div>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Blocked Requests</p>
+                  <p className="text-lg sm:text-2xl font-bold text-red-600">{analytics.totalBlocked.toLocaleString()}</p>
+                  <p className="text-xs sm:text-sm text-gray-500">{analytics.systemHealth.blockedPercentage}% of total</p>
+                </div>
+              </div>
+              
+              <div className="bg-white p-3 sm:p-6 rounded-lg shadow-md">
+                <div>
+                  <p className="text-xs sm:text-sm font-medium text-gray-600">Unique IPs</p>
+                  <p className="text-lg sm:text-2xl font-bold text-purple-600">{analytics.uniqueIPs}</p>
+                </div>
+              </div>
+            </div>
 
-        {/* Recent Activity */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Recent Activity</h3>
-          <div className="overflow-x-auto">
-            <table className="min-w-full">
-              <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-2 text-sm font-medium text-gray-600">IP Address</th>
-                  <th className="text-left py-2 text-sm font-medium text-gray-600">Status</th>
-                  <th className="text-left py-2 text-sm font-medium text-gray-600">User Agent</th>
-                  <th className="text-left py-2 text-sm font-medium text-gray-600">Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                {analytics.recentActivity.map((activity, index) => (
-                  <tr key={index} className="border-b border-gray-100">
-                    <td className="py-2 text-sm text-gray-800">{activity.ip}</td>
-                    <td className="py-2">
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${
-                        activity.allowed 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}>
-                        {activity.allowed ? 'ALLOWED' : 'BLOCKED'}
-                      </span>
-                    </td>
-                    <td className="py-2 text-sm text-gray-600 truncate max-w-xs">
-                      {activity.userAgent || 'Unknown'}
-                    </td>
-                    <td className="py-2 text-sm text-gray-500">
-                      {formatTimestamp(activity.timestamp)}
-                    </td>
-                  </tr>
+            {/* Performance Metrics */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+              <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Request Rate</h3>
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-xs sm:text-sm text-gray-600">Average/min</span>
+                    <span className="text-xs sm:text-sm font-medium">{analytics.averageRequestsPerMinute}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-xs sm:text-sm text-gray-600">Peak/min</span>
+                    <span className="text-xs sm:text-sm font-medium">{analytics.peakRequestsPerMinute}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Success Rate</h3>
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-xs sm:text-sm text-gray-600">Allowed</span>
+                    <span className="text-xs sm:text-sm font-medium text-green-600">{analytics.totalAllowed.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-xs sm:text-sm text-gray-600">Blocked</span>
+                    <span className="text-xs sm:text-sm font-medium text-red-600">{analytics.totalBlocked.toLocaleString()}</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className="bg-green-600 h-2 rounded-full" 
+                      style={{ width: `${100 - analytics.systemHealth.blockedPercentage}%` }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Top IPs</h3>
+                <div className="space-y-1 sm:space-y-2">
+                  {analytics.topIPs.slice(0, 5).map((ip, index) => (
+                    <div key={ip.ip} className="flex justify-between items-center">
+                      <span className="text-xs sm:text-sm text-gray-600 truncate">{ip.ip}</span>
+                      <div className="flex items-center gap-1 sm:gap-2">
+                        <span className="text-xs sm:text-sm font-medium">{ip.requests}</span>
+                        <div className="w-12 sm:w-16 bg-gray-200 rounded-full h-1">
+                          <div 
+                            className="bg-blue-600 h-1 rounded-full" 
+                            style={{ width: `${ip.percentage}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Hourly Stats Chart */}
+            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-6 sm:mb-8">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">24-Hour Activity</h3>
+              <div className="grid grid-cols-12 gap-1 sm:gap-2">
+                {analytics.hourlyStats.map((hour, index) => (
+                  <div key={index} className="text-center">
+                    <div className="text-xs text-gray-500 mb-1">{hour.hour}</div>
+                    <div className="space-y-1">
+                      <div 
+                        className="bg-blue-600 rounded-sm" 
+                        style={{ height: `${Math.max(2, (hour.requests / Math.max(...analytics.hourlyStats.map(h => h.requests))) * 30)}px` }}
+                        title={`${hour.requests} requests`}
+                      ></div>
+                      <div className="text-xs text-gray-400">{hour.requests}</div>
+                    </div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+              </div>
+            </div>
+
+            {/* Recent Activity */}
+            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Recent Activity</h3>
+              <div className="overflow-x-auto">
+                <table className="min-w-full">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left py-1 sm:py-2 text-xs sm:text-sm font-medium text-gray-600">IP Address</th>
+                      <th className="text-left py-1 sm:py-2 text-xs sm:text-sm font-medium text-gray-600">Status</th>
+                      <th className="text-left py-1 sm:py-2 text-xs sm:text-sm font-medium text-gray-600 hidden sm:table-cell">User Agent</th>
+                      <th className="text-left py-1 sm:py-2 text-xs sm:text-sm font-medium text-gray-600">Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {analytics.recentActivity.map((activity, index) => (
+                      <tr key={index} className="border-b border-gray-100">
+                        <td className="py-1 sm:py-2 text-xs sm:text-sm text-gray-800">{activity.ip}</td>
+                        <td className="py-1 sm:py-2">
+                          <span className={`px-1 sm:px-2 py-1 rounded text-xs font-medium ${
+                            activity.allowed 
+                              ? 'bg-green-100 text-green-800' 
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {activity.allowed ? 'ALLOWED' : 'BLOCKED'}
+                          </span>
+                        </td>
+                        <td className="py-1 sm:py-2 text-xs sm:text-sm text-gray-600 truncate max-w-xs hidden sm:table-cell">
+                          {activity.userAgent || 'Unknown'}
+                        </td>
+                        <td className="py-1 sm:py-2 text-xs sm:text-sm text-gray-500">
+                          {formatTimestamp(activity.timestamp)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
         </div>
       </div>
       <Footer />
