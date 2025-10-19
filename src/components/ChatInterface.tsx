@@ -39,6 +39,28 @@ export default function ChatInterface() {
       });
 
       if (!response.ok) {
+        if (response.status === 429) {
+          const errorData = await response.json();
+          throw new Error(`Rate limit exceeded. Please wait ${Math.ceil((errorData.resetTime - Date.now()) / 1000)} seconds before trying again.`);
+        }
+        
+        // Handle safety blocked responses
+        if (response.status === 400) {
+          const errorData = await response.json();
+          if (errorData.type === 'safety_blocked') {
+            setMessages(prev => [...prev, {
+              role: 'assistant',
+              content: `🚫 **Safety Blocked**: ${errorData.message}\n\n**Reasons**: ${errorData.reasons.join(', ')}\n\n**Suggestions**:\n${errorData.suggestions.map((s: string) => `• ${s}`).join('\n')}`,
+              safetyInfo: {
+                confidence: 0.9,
+                riskLevel: errorData.riskLevel,
+                isSafe: false
+              }
+            }]);
+            return;
+          }
+        }
+        
         throw new Error('Failed to send message');
       }
 
@@ -88,6 +110,14 @@ export default function ChatInterface() {
                       : msg
                   )
                 );
+              } else if (data.type === 'safety_info') {
+                setMessages(prev => 
+                  prev.map((msg, index) => 
+                    index === prev.length - 1 && msg.role === 'assistant'
+                      ? { ...msg, safetyInfo: data }
+                      : msg
+                  )
+                );
               }
             } catch (e) {
               console.error('Error parsing chunk:', e);
@@ -108,11 +138,35 @@ export default function ChatInterface() {
 
   return (
     <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white">
+              {/* Header with admin and analytics links */}
+              <div className="flex justify-between items-center p-4 border-b border-gray-200">
+                <h1 className="text-xl font-semibold text-gray-800">HelpDesk AI</h1>
+                <div className="flex gap-4">
+                  <a 
+                    href="/safety" 
+                    className="text-sm text-red-600 hover:text-red-800 underline"
+                  >
+                    🛡️ Safety
+                  </a>
+                  <a 
+                    href="/analytics" 
+                    className="text-sm text-purple-600 hover:text-purple-800 underline"
+                  >
+                    📊 Analytics
+                  </a>
+                  <a 
+                    href="/admin" 
+                    className="text-sm text-blue-600 hover:text-blue-800 underline"
+                  >
+                    Admin Panel
+                  </a>
+                </div>
+              </div>
+      
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 && (
           <div className="text-center text-gray-500 mt-8">
-            <h2 className="text-2xl font-bold mb-4">HelpDesk AI</h2>
-            <p>Ask me anything about our service, pricing, refunds, or getting started!</p>
+            <p className="text-lg mb-4">Ask me anything about our service, pricing, refunds, or getting started!</p>
             <div className="mt-6 space-y-2">
               <p className="text-sm">Try asking:</p>
               <div className="space-y-1">

@@ -39,37 +39,62 @@ export class MockLLMProvider implements LLMProvider {
   private buildResponse(query: string, context: SearchResult[], citations: Citation[]): string {
     const lowerQuery = query.toLowerCase();
     
-    // Check if query is about pricing
-    if (lowerQuery.includes('pricing') || lowerQuery.includes('price') || lowerQuery.includes('cost') || lowerQuery.includes('plan')) {
-      const pricingContext = context.find(r => r.document.filename === 'pricing.md');
-      if (pricingContext) {
-        return `Based on our pricing information, we offer three tiers: Free ($0/month), Professional ($29/month), and Enterprise ($99/month). The Free tier includes 100 API calls, Professional offers 10,000 calls with priority support, and Enterprise provides unlimited calls with 24/7 support. Each tier includes different features and support levels.`;
-      }
+    // Prompt guardrails - check for out-of-scope questions
+    const outOfScopeKeywords = [
+      'hardware', 'shipping', 'delivery', 'physical', 'device', 'computer', 'laptop',
+      'weather', 'sports', 'politics', 'news', 'entertainment', 'cooking', 'travel'
+    ];
+    
+    const isOutOfScope = outOfScopeKeywords.some(keyword => lowerQuery.includes(keyword));
+    if (isOutOfScope) {
+      return `I can only help with questions about our software service, including pricing, getting started, and refunds. For questions about ${outOfScopeKeywords.find(k => lowerQuery.includes(k))}, I'd recommend checking our documentation or contacting support.`;
     }
     
-    // Check if query is about refunds
-    if (lowerQuery.includes('refund') || lowerQuery.includes('cancel') || lowerQuery.includes('money back')) {
-      const refundContext = context.find(r => r.document.filename === 'refunds.md');
-      if (refundContext) {
-        return `We offer a 30-day money-back guarantee for all paid plans. You can get a full refund within 30 days of your initial purchase with no questions asked. For service issues, we also provide refunds for outages lasting more than 24 hours. You can contact our billing team at billing@helpdesk-ai.com for refund requests.`;
-      }
-    }
-    
-    // Check if query is about getting started
-    if (lowerQuery.includes('start') || lowerQuery.includes('begin') || lowerQuery.includes('api key') || lowerQuery.includes('getting started')) {
-      const startContext = context.find(r => r.document.filename === 'getting-started.md');
-      if (startContext) {
-        return `To get started, first create your account and verify your email. Then navigate to the API Keys section in your dashboard to generate your API key. Make sure to keep your API key secure and never share it publicly. You can then make your first API call using the provided curl example or our interactive API explorer.`;
-      }
-    }
-    
-    // Generic response if no specific context found
+    // Check if we have context and if it's relevant
     if (context.length > 0) {
-      return `I found some relevant information that might help answer your question. Let me provide you with the details from our documentation.`;
+      // Check if any context has a meaningful score (not just fallback)
+      const hasRelevantContext = context.some(result => result.score > 0.1);
+      
+      if (!hasRelevantContext) {
+        // Context exists but is not relevant - prompt guardrails
+        return `I don't have specific information about that topic in our knowledge base. I'd recommend checking our documentation (getting-started.md, pricing.md, or refunds.md) or contacting support for more detailed assistance.`;
+      }
+      // Check if query is about pricing
+      if (lowerQuery.includes('pricing') || lowerQuery.includes('price') || lowerQuery.includes('cost') || lowerQuery.includes('plan') || lowerQuery.includes('tier')) {
+        const pricingContext = context.find(r => r.document.filename === 'pricing.md');
+        if (pricingContext) {
+          return `Based on our pricing information, we offer three tiers: Free ($0/month), Professional ($29/month), and Enterprise ($99/month). The Free tier includes 100 API calls, Professional offers 10,000 calls with priority support, and Enterprise provides unlimited calls with 24/7 support. Each tier includes different features and support levels.`;
+        }
+      }
+      
+      // Check if query is about refunds
+      if (lowerQuery.includes('refund') || lowerQuery.includes('cancel') || lowerQuery.includes('money back') || lowerQuery.includes('guarantee')) {
+        const refundContext = context.find(r => r.document.filename === 'refunds.md');
+        if (refundContext) {
+          return `We offer a 30-day money-back guarantee for all paid plans. You can get a full refund within 30 days of your initial purchase with no questions asked. For service issues, we also provide refunds for outages lasting more than 24 hours. You can contact our billing team at billing@helpdesk-ai.com for refund requests.`;
+        }
+      }
+      
+      // Check if query is about getting started
+      if (lowerQuery.includes('start') || lowerQuery.includes('begin') || lowerQuery.includes('api key') || lowerQuery.includes('getting started') || lowerQuery.includes('account') || lowerQuery.includes('signup')) {
+        const startContext = context.find(r => r.document.filename === 'getting-started.md');
+        if (startContext) {
+          return `To get started, first create your account and verify your email. Then navigate to the API Keys section in your dashboard to generate your API key. Make sure to keep your API key secure and never share it publicly. You can then make your first API call using the provided curl example or our interactive API explorer.`;
+        }
+      }
+      
+      // Generic response using the retrieved context
+      const contextSummary = context.map(result => {
+        const filename = result.document.filename.replace('.md', '');
+        const snippet = result.paragraph.substring(0, 200) + '...';
+        return `From ${filename}: ${snippet}`;
+      }).join('\n\n');
+      
+      return `I found some relevant information in our documentation that might help answer your question:\n\n${contextSummary}\n\nPlease let me know if you need more specific details about any of these topics.`;
     }
     
-    // No relevant context found
-    return `I don't have specific information about that topic in our knowledge base. I'd recommend checking our documentation or contacting support for more detailed assistance.`;
+    // No relevant context found - prompt guardrails
+    return `I don't have specific information about that topic in our knowledge base. I'd recommend checking our documentation (getting-started.md, pricing.md, or refunds.md) or contacting support for more detailed assistance.`;
   }
 }
 
