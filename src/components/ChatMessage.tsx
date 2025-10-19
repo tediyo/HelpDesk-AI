@@ -24,7 +24,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
           <div className={`inline-block ${
             message.role === 'user'
               ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white'
-              : 'bg-white border border-gray-200 text-gray-900'
+              : 'bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 text-gray-900 dark:text-white'
           } rounded-xl sm:rounded-2xl px-3 sm:px-6 py-3 sm:py-4 shadow-sm hover:shadow-md transition-shadow duration-200`}>
             
             {/* Message Text */}
@@ -34,17 +34,17 @@ export default function ChatMessage({ message }: ChatMessageProps) {
             
             {/* Safety Information */}
             {message.safetyInfo && (
-              <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300">
+              <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-300 dark:border-slate-600">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 text-xs">
                   <span className={`px-2 py-1 rounded-full font-medium ${
-                    message.safetyInfo.riskLevel === 'low' ? 'bg-green-100 text-green-800' :
-                    message.safetyInfo.riskLevel === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                    message.safetyInfo.riskLevel === 'high' ? 'bg-orange-100 text-orange-800' :
-                    'bg-red-100 text-red-800'
+                    message.safetyInfo.riskLevel === 'low' ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' :
+                    message.safetyInfo.riskLevel === 'medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400' :
+                    message.safetyInfo.riskLevel === 'high' ? 'bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400' :
+                    'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
                   }`}>
                     {message.safetyInfo.isSafe ? '✅ Safe' : '⚠️ Risk: ' + message.safetyInfo.riskLevel}
                   </span>
-                  <span className="text-gray-500 text-xs">
+                  <span className="text-gray-500 dark:text-gray-400 text-xs">
                     Confidence: {Math.round(message.safetyInfo.confidence * 100)}%
                   </span>
                 </div>
@@ -53,8 +53,8 @@ export default function ChatMessage({ message }: ChatMessageProps) {
             
             {/* Citations */}
             {message.citations && message.citations.length > 0 && (
-              <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-200">
-                <div className="text-xs font-medium text-gray-600 mb-1 sm:mb-2 flex items-center gap-1">
+              <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-200 dark:border-slate-600">
+                <div className="text-xs font-medium text-gray-600 dark:text-gray-400 mb-1 sm:mb-2 flex items-center gap-1">
                   <span>📚</span>
                   Sources
                 </div>
@@ -62,7 +62,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
                   {message.citations.map((citation, index) => (
                     <span
                       key={index}
-                      className="inline-flex items-center px-2 sm:px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full text-xs font-medium cursor-pointer transition-colors duration-200"
+                      className="inline-flex items-center px-2 sm:px-3 py-1 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-700 dark:text-gray-300 rounded-full text-xs font-medium cursor-pointer transition-colors duration-200"
                       title={citation.text}
                     >
                       <span className="mr-1">📄</span>
@@ -76,7 +76,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
           </div>
           
           {/* Timestamp */}
-          <div className={`text-xs text-gray-500 mt-1 sm:mt-2 ${message.role === 'user' ? 'text-right' : 'text-left'}`}>
+          <div className={`text-xs text-gray-500 dark:text-gray-400 mt-1 sm:mt-2 ${message.role === 'user' ? 'text-right' : 'text-left'}`}>
             {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </div>
         </div>
