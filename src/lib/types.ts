@@ -16,6 +16,11 @@ export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
   citations?: Citation[];
+  safetyInfo?: {
+    confidence: number;
+    riskLevel: 'low' | 'medium' | 'high' | 'critical';
+    isSafe: boolean;
+  };
 }
 
 export interface Citation {

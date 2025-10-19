@@ -17,6 +17,27 @@ export default function ChatMessage({ message }: ChatMessageProps) {
         }`}
       >
         <div className="whitespace-pre-wrap">{message.content}</div>
+        
+        {/* Safety Information */}
+        {message.safetyInfo && (
+          <div className="mt-2 pt-2 border-t border-gray-300">
+            <div className="flex items-center gap-2 text-xs">
+              <span className={`px-2 py-1 rounded ${
+                message.safetyInfo.riskLevel === 'low' ? 'bg-green-100 text-green-800' :
+                message.safetyInfo.riskLevel === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                message.safetyInfo.riskLevel === 'high' ? 'bg-orange-100 text-orange-800' :
+                'bg-red-100 text-red-800'
+              }`}>
+                {message.safetyInfo.isSafe ? '✅ Safe' : '⚠️ Risk: ' + message.safetyInfo.riskLevel}
+              </span>
+              <span className="text-gray-600">
+                Confidence: {Math.round(message.safetyInfo.confidence * 100)}%
+              </span>
+            </div>
+          </div>
+        )}
+        
+        {/* Citations */}
         {message.citations && message.citations.length > 0 && (
           <div className="mt-2 pt-2 border-t border-gray-300">
             <div className="text-xs text-gray-600 mb-1">Sources:</div>

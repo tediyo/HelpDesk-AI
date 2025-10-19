@@ -3,6 +3,7 @@ import { DocumentRetriever } from '@/lib/retriever';
 import { createLLMProvider } from '@/lib/llm';
 import { ChatRequest, ChatMessage, Citation } from '@/lib/types';
 import { rateLimiter } from '@/lib/rateLimiter';
+import { safetyGuard } from '@/lib/safety';
 
 const retriever = new DocumentRetriever();
 const llmProvider = createLLMProvider();
@@ -46,34 +47,81 @@ export async function POST(request: NextRequest) {
       return new Response('Last message must be from user', { status: 400 });
     }
 
-    // Retrieve relevant documents
-    const searchResults = retriever.search(lastMessage.content, 3);
-    
-    // Generate citations
-    const citations: Citation[] = searchResults.map(result => ({
-      filename: result.document.filename,
-      paragraphIndex: result.paragraphIndex,
-      text: result.paragraph.substring(0, 150) + '...'
-    }));
+            // Retrieve relevant documents
+            const searchResults = retriever.search(lastMessage.content, 3);
+            
+            // Safety scan before processing
+            const safetyResult = safetyGuard.scanQuery(lastMessage.content, searchResults);
+            
+            if (!safetyResult.isSafe) {
+              console.log('Safety guard blocked query:', {
+                query: lastMessage.content,
+                reasons: safetyResult.reasons,
+                riskLevel: safetyResult.riskLevel,
+                confidence: safetyResult.confidence
+              });
+              
+              const blockedResponse = {
+                type: 'safety_blocked',
+                message: 'I cannot process this request due to safety concerns.',
+                reasons: safetyResult.reasons,
+                suggestions: safetyResult.suggestions,
+                riskLevel: safetyResult.riskLevel
+              };
+              
+              return new Response(JSON.stringify(blockedResponse), {
+                status: 400,
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-RateLimit-Limit': '10',
+                  'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+                  'X-RateLimit-Reset': rateLimitResult.resetTime.toString(),
+                },
+              });
+            }
+            
+            // Generate citations
+            const citations: Citation[] = searchResults.map(result => ({
+              filename: result.document.filename,
+              paragraphIndex: result.paragraphIndex,
+              text: result.paragraph.substring(0, 150) + '...'
+            }));
 
-    // Generate response using LLM
-    const responseStream = await llmProvider.generateResponse(
-      lastMessage.content,
-      searchResults
-    );
+            // Generate response using LLM
+            const responseStream = await llmProvider.generateResponse(
+              lastMessage.content,
+              searchResults
+            );
 
-    // Create a readable stream that includes citations
+    // Create a readable stream that includes citations and safety info
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
       async start(controller) {
         const reader = responseStream.getReader();
+        let fullResponse = '';
         
         try {
           while (true) {
             const { done, value } = await reader.read();
             
             if (done) {
-              // Send citations as a special message
+              // Post-response safety scan
+              const postSafetyResult = safetyGuard.scanQuery(
+                lastMessage.content, 
+                searchResults, 
+                fullResponse
+              );
+              
+              // Send safety info
+              const safetyData = {
+                type: 'safety_info',
+                confidence: postSafetyResult.confidence,
+                riskLevel: postSafetyResult.riskLevel,
+                isSafe: postSafetyResult.isSafe
+              };
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify(safetyData)}\n\n`));
+              
+              // Send citations
               const citationsData = {
                 type: 'citations',
                 citations: citations
@@ -81,6 +129,9 @@ export async function POST(request: NextRequest) {
               controller.enqueue(encoder.encode(`data: ${JSON.stringify(citationsData)}\n\n`));
               break;
             }
+            
+            // Accumulate response for post-scan
+            fullResponse += value;
             
             // Send the content chunk
             const contentData = {

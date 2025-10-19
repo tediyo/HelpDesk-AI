@@ -43,6 +43,24 @@ export default function ChatInterface() {
           const errorData = await response.json();
           throw new Error(`Rate limit exceeded. Please wait ${Math.ceil((errorData.resetTime - Date.now()) / 1000)} seconds before trying again.`);
         }
+        
+        // Handle safety blocked responses
+        if (response.status === 400) {
+          const errorData = await response.json();
+          if (errorData.type === 'safety_blocked') {
+            setMessages(prev => [...prev, {
+              role: 'assistant',
+              content: `🚫 **Safety Blocked**: ${errorData.message}\n\n**Reasons**: ${errorData.reasons.join(', ')}\n\n**Suggestions**:\n${errorData.suggestions.map((s: string) => `• ${s}`).join('\n')}`,
+              safetyInfo: {
+                confidence: 0.9,
+                riskLevel: errorData.riskLevel,
+                isSafe: false
+              }
+            }]);
+            return;
+          }
+        }
+        
         throw new Error('Failed to send message');
       }
 
@@ -92,6 +110,14 @@ export default function ChatInterface() {
                       : msg
                   )
                 );
+              } else if (data.type === 'safety_info') {
+                setMessages(prev => 
+                  prev.map((msg, index) => 
+                    index === prev.length - 1 && msg.role === 'assistant'
+                      ? { ...msg, safetyInfo: data }
+                      : msg
+                  )
+                );
               }
             } catch (e) {
               console.error('Error parsing chunk:', e);
@@ -116,6 +142,12 @@ export default function ChatInterface() {
               <div className="flex justify-between items-center p-4 border-b border-gray-200">
                 <h1 className="text-xl font-semibold text-gray-800">HelpDesk AI</h1>
                 <div className="flex gap-4">
+                  <a 
+                    href="/safety" 
+                    className="text-sm text-red-600 hover:text-red-800 underline"
+                  >
+                    🛡️ Safety
+                  </a>
                   <a 
                     href="/analytics" 
                     className="text-sm text-purple-600 hover:text-purple-800 underline"
