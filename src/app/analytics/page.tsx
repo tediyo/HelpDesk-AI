@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Footer from '@/components/Footer';
 
 interface RateLimitAnalytics {
   totalRequests: number;
@@ -24,6 +25,7 @@ export default function AnalyticsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
+  const [showQuickLinksModal, setShowQuickLinksModal] = useState(false);
 
   const fetchAnalytics = async () => {
     try {
@@ -70,6 +72,23 @@ export default function AnalyticsPage() {
       return () => clearInterval(interval);
     }
   }, [autoRefresh]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (showQuickLinksModal) {
+        const target = event.target as Element;
+        if (!target.closest('.relative')) {
+          setShowQuickLinksModal(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showQuickLinksModal]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -121,8 +140,9 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="flex-1 py-8">
+        <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="flex justify-between items-center">
@@ -130,28 +150,108 @@ export default function AnalyticsPage() {
               <h1 className="text-3xl font-bold text-gray-900">Rate Limit Analytics</h1>
               <p className="text-gray-600 mt-2">Real-time monitoring and usage statistics</p>
             </div>
-            <div className="flex gap-4">
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={autoRefresh}
-                  onChange={(e) => setAutoRefresh(e.target.checked)}
-                  className="mr-2"
-                />
-                Auto-refresh (5s)
-              </label>
-              <button
-                onClick={fetchAnalytics}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                🔄 Refresh
-              </button>
-              <button
-                onClick={resetStats}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-              >
-                🗑️ Reset Stats
-              </button>
+            <div className="flex items-center gap-3">
+              {/* Quick Links Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowQuickLinksModal(!showQuickLinksModal)}
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl hover:from-indigo-600 hover:to-indigo-700 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                >
+                  <span>🔗</span>
+                  <span>Quick Links</span>
+                  <svg className={`w-4 h-4 transition-transform duration-200 ${showQuickLinksModal ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                {/* Dropdown Menu */}
+                {showQuickLinksModal && (
+                  <>
+                    {/* Backdrop for mobile */}
+                    <div 
+                      className="fixed inset-0 z-40 md:hidden"
+                      onClick={() => setShowQuickLinksModal(false)}
+                    ></div>
+                    <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 z-50">
+                    <div className="p-2">
+                      <a 
+                        href="/" 
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-green-50 transition-colors duration-200 group"
+                        onClick={() => setShowQuickLinksModal(false)}
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                          <span className="text-white text-sm">💬</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900 text-sm">Chat Interface</div>
+                        </div>
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                      
+                      <a 
+                        href="/admin" 
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
+                        onClick={() => setShowQuickLinksModal(false)}
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                          <span className="text-white text-sm">⚙️</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900 text-sm">Admin Panel</div>
+                        </div>
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                      
+                      <a 
+                        href="/safety" 
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 transition-colors duration-200 group"
+                        onClick={() => setShowQuickLinksModal(false)}
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                          <span className="text-white text-sm">🛡️</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900 text-sm">Safety Dashboard</div>
+                        </div>
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                    </div>
+                    </div>
+                  </>
+                )}
+              </div>
+              
+              {/* Control Buttons */}
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-xl">
+                  <input
+                    type="checkbox"
+                    checked={autoRefresh}
+                    onChange={(e) => setAutoRefresh(e.target.checked)}
+                    className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                  />
+                  <span className="text-sm text-gray-700 font-medium">Auto-refresh</span>
+                </div>
+                
+                <button
+                  onClick={fetchAnalytics}
+                  className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:from-blue-600 hover:to-blue-700 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                >
+                  🔄 Refresh
+                </button>
+                <button
+                  onClick={resetStats}
+                  className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                >
+                  🗑️ Reset
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -310,7 +410,9 @@ export default function AnalyticsPage() {
             </table>
           </div>
         </div>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }

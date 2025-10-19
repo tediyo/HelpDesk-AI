@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Footer from '@/components/Footer';
 
 interface SafetyReport {
   summary: {
@@ -153,8 +154,9 @@ export default function SafetyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-red-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-red-50 flex flex-col">
+      <div className="flex-1">
+        <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Professional Header */}
         <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 mb-8">
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6">
@@ -244,7 +246,7 @@ export default function SafetyPage() {
                           <span className="text-white text-sm">📊</span>
                         </div>
                         <div className="flex-1">
-                          <div className="font-semibold text-gray-900 text-sm">Rate LimitAnalytics </div>
+                          <div className="font-semibold text-gray-900 text-sm">Rate Limit Analytics </div>
                         </div>
                         <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -506,8 +508,9 @@ export default function SafetyPage() {
             </div>
           </div>
         </div>
+        </div>
       </div>
-
+      <Footer />
     </div>
   );
 }
