@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Footer from '@/components/Footer';
 
 export default function AdminPage() {
   const [files, setFiles] = useState<FileList | null>(null);
@@ -172,8 +173,9 @@ export default function AdminPage() {
   }, [showQuickLinksModal]);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="flex-1 py-8">
+        <div className="max-w-4xl mx-auto px-4">
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900">Admin Panel</h1>
@@ -520,7 +522,9 @@ export default function AdminPage() {
             </ul>
           </div>
         </div>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }

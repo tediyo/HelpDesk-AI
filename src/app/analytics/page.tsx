@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Footer from '@/components/Footer';
 
 interface RateLimitAnalytics {
   totalRequests: number;
@@ -139,8 +140,9 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="flex-1 py-8">
+        <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="flex justify-between items-center">
@@ -408,7 +410,9 @@ export default function AnalyticsPage() {
             </table>
           </div>
         </div>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 }
