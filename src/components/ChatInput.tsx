@@ -29,28 +29,28 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center gap-3">
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
       <div className="flex-1 relative">
         <textarea
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Ask a question about our service, pricing, refunds, or getting started..."
-          className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-gray-900 placeholder-gray-500 text-sm leading-relaxed"
+          className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-8 sm:pr-12 border border-gray-300 rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-gray-900 placeholder-gray-500 text-sm leading-relaxed"
           disabled={disabled}
           rows={1}
           style={{
-            minHeight: '48px',
+            minHeight: '44px',
             maxHeight: '120px',
-            height: '48px'
+            height: '44px'
           }}
           onInput={(e) => {
             const target = e.target as HTMLTextAreaElement;
-            target.style.height = '48px';
+            target.style.height = '44px';
             target.style.height = Math.min(target.scrollHeight, 120) + 'px';
           }}
         />
-        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+        <div className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 hidden sm:block">
           <div className="flex items-center gap-1 text-xs text-gray-400">
             <span>Press</span>
             <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs">Enter</kbd>
@@ -63,9 +63,10 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
       <button
         type="submit"
         disabled={disabled || !message.trim()}
-        className="px-6 py-3 bg-blue-500 text-white rounded-2xl hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-2 font-medium text-sm h-12"
+        className="px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-500 text-white rounded-xl sm:rounded-2xl hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center gap-2 font-medium text-sm h-11 sm:h-12"
       >
-        <span>Send</span>
+        <span className="hidden sm:inline">Send</span>
+        <span className="sm:hidden">Send</span>
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
         </svg>

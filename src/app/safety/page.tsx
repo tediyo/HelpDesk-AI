@@ -154,46 +154,46 @@ export default function SafetyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-red-50 flex flex-col">
-      <div className="flex-1">
-        <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Professional Header */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 mb-8">
-          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6">
-            <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-2xl flex items-center justify-center shadow-lg">
-                <span className="text-white text-2xl">🛡️</span>
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Safety Dashboard</h1>
-                <p className="text-gray-600 mt-1">AI-powered safety monitoring and threat detection system</p>
-                <div className="flex items-center gap-4 mt-3">
-                  <div className="flex items-center gap-2">
-                    <div className={`w-3 h-3 rounded-full ${autoRefresh ? 'bg-green-500' : 'bg-gray-400'}`}></div>
-                    <span className="text-sm text-gray-600">
-                      {autoRefresh ? 'Live monitoring active' : 'Monitoring paused'}
-                    </span>
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-red-50 flex flex-col">
+          <div className="flex-1">
+            <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
+            {/* Professional Header */}
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 sm:p-8 mb-6 sm:mb-8">
+              <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 sm:gap-6">
+                <div className="flex items-center space-x-3 sm:space-x-4">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-2xl flex items-center justify-center shadow-lg">
+                    <span className="text-white text-xl sm:text-2xl">🛡️</span>
                   </div>
-                  <div className="text-sm text-gray-500">
-                    Last updated: {new Date().toLocaleTimeString()}
+                  <div>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Safety Dashboard</h1>
+                    <p className="text-sm sm:text-base text-gray-600 mt-1">AI-powered safety monitoring and threat detection system</p>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mt-2 sm:mt-3">
+                      <div className="flex items-center gap-2">
+                        <div className={`w-3 h-3 rounded-full ${autoRefresh ? 'bg-green-500' : 'bg-gray-400'}`}></div>
+                        <span className="text-xs sm:text-sm text-gray-600">
+                          {autoRefresh ? 'Live monitoring active' : 'Monitoring paused'}
+                        </span>
+                      </div>
+                      <div className="text-xs sm:text-sm text-gray-500">
+                        Last updated: {new Date().toLocaleTimeString()}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
             
-            <div className="flex flex-wrap items-center gap-3">
-              {/* Quick Links Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => setShowQuickLinksModal(!showQuickLinksModal)}
-                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl hover:from-indigo-600 hover:to-indigo-700 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
-                >
-                  <span>🔗</span>
-                  <span>Quick Links</span>
-                  <svg className={`w-4 h-4 transition-transform duration-200 ${showQuickLinksModal ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
+                <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 sm:gap-3">
+                  {/* Quick Links Dropdown */}
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowQuickLinksModal(!showQuickLinksModal)}
+                      className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl hover:from-indigo-600 hover:to-indigo-700 text-xs sm:text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200 w-full sm:w-auto"
+                    >
+                      <span>🔗</span>
+                      <span>Quick Links</span>
+                      <svg className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200 ${showQuickLinksModal ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
                 
                 {/* Dropdown Menu */}
                 {showQuickLinksModal && (
@@ -258,47 +258,47 @@ export default function SafetyPage() {
                 )}
               </div>
               
-              {/* Control Buttons */}
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-xl">
-                  <input
-                    type="checkbox"
-                    checked={autoRefresh}
-                    onChange={(e) => setAutoRefresh(e.target.checked)}
-                    className="w-4 h-4 text-red-600 rounded focus:ring-red-500"
-                  />
-                  <span className="text-sm text-gray-700 font-medium">Auto-refresh</span>
-                </div>
-                
-                <button
-                  onClick={fetchSafetyReport}
-                  className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
-                >
-                  🔄 Refresh
-                </button>
-                <button
-                  onClick={resetSafetyMetrics}
-                  className="px-4 py-2 bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-xl hover:from-gray-600 hover:to-gray-700 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
-                >
-                  🗑️ Reset
-                </button>
-              </div>
+                  {/* Control Buttons */}
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                    <div className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-gray-100 rounded-xl">
+                      <input
+                        type="checkbox"
+                        checked={autoRefresh}
+                        onChange={(e) => setAutoRefresh(e.target.checked)}
+                        className="w-3 h-3 sm:w-4 sm:h-4 text-red-600 rounded focus:ring-red-500"
+                      />
+                      <span className="text-xs sm:text-sm text-gray-700 font-medium">Auto-refresh</span>
+                    </div>
+                    
+                    <button
+                      onClick={fetchSafetyReport}
+                      className="px-3 sm:px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 text-xs sm:text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                    >
+                      🔄 Refresh
+                    </button>
+                    <button
+                      onClick={resetSafetyMetrics}
+                      className="px-3 sm:px-4 py-2 bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-xl hover:from-gray-600 hover:to-gray-700 text-xs sm:text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                    >
+                      🗑️ Reset
+                    </button>
+                  </div>
             </div>
           </div>
         </div>
 
-        {/* Safety Overview Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
-                <span className="text-white text-xl">🛡️</span>
-              </div>
-              <div className="text-right">
-                <div className="text-3xl font-bold text-green-700">{report.summary.safetyRate}%</div>
-                <div className="text-sm text-green-600 font-medium">Safety Rate</div>
-              </div>
-            </div>
+            {/* Safety Overview Cards */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+              <div className="bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-2xl p-3 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center">
+                    <span className="text-white text-sm sm:text-xl">🛡️</span>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-xl sm:text-3xl font-bold text-green-700">{report.summary.safetyRate}%</div>
+                    <div className="text-xs sm:text-sm text-green-600 font-medium">Safety Rate</div>
+                  </div>
+                </div>
             <div className="w-full bg-green-200 rounded-full h-2">
               <div 
                 className="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full transition-all duration-500"
@@ -307,78 +307,78 @@ export default function SafetyPage() {
             </div>
           </div>
           
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
-                <span className="text-white text-xl">📊</span>
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-2xl p-3 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                    <span className="text-white text-sm sm:text-xl">📊</span>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-xl sm:text-3xl font-bold text-blue-700">{report.summary.totalScans.toLocaleString()}</div>
+                    <div className="text-xs sm:text-sm text-blue-600 font-medium">Total Scans</div>
+                  </div>
+                </div>
+                <div className="text-xs text-blue-600">
+                  All-time safety checks performed
+                </div>
               </div>
-              <div className="text-right">
-                <div className="text-3xl font-bold text-blue-700">{report.summary.totalScans.toLocaleString()}</div>
-                <div className="text-sm text-blue-600 font-medium">Total Scans</div>
+              
+              <div className="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-2xl p-3 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
+                    <span className="text-white text-sm sm:text-xl">🎯</span>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-xl sm:text-3xl font-bold text-purple-700">{report.summary.averageConfidence}%</div>
+                    <div className="text-xs sm:text-sm text-purple-600 font-medium">Avg Confidence</div>
+                  </div>
+                </div>
+                <div className="w-full bg-purple-200 rounded-full h-2">
+                  <div 
+                    className="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full transition-all duration-500"
+                    style={{ width: `${report.summary.averageConfidence}%` }}
+                  ></div>
+                </div>
               </div>
-            </div>
-            <div className="text-xs text-blue-600">
-              All-time safety checks performed
-            </div>
-          </div>
-          
-          <div className="bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
-                <span className="text-white text-xl">🎯</span>
+              
+              <div className="bg-gradient-to-br from-red-50 to-red-100 border border-red-200 rounded-2xl p-3 sm:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="flex items-center justify-between mb-3 sm:mb-4">
+                  <div className="w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center">
+                    <span className="text-white text-sm sm:text-xl">⚠️</span>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-xl sm:text-3xl font-bold text-red-700">{report.summary.riskDistribution.critical}</div>
+                    <div className="text-xs sm:text-sm text-red-600 font-medium">Critical Threats</div>
+                  </div>
+                </div>
+                <div className="text-xs text-red-600">
+                  High-priority security issues
+                </div>
               </div>
-              <div className="text-right">
-                <div className="text-3xl font-bold text-purple-700">{report.summary.averageConfidence}%</div>
-                <div className="text-sm text-purple-600 font-medium">Avg Confidence</div>
-              </div>
-            </div>
-            <div className="w-full bg-purple-200 rounded-full h-2">
-              <div 
-                className="bg-gradient-to-r from-purple-500 to-purple-600 h-2 rounded-full transition-all duration-500"
-                style={{ width: `${report.summary.averageConfidence}%` }}
-              ></div>
-            </div>
-          </div>
-          
-          <div className="bg-gradient-to-br from-red-50 to-red-100 border border-red-200 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center">
-                <span className="text-white text-xl">⚠️</span>
-              </div>
-              <div className="text-right">
-                <div className="text-3xl font-bold text-red-700">{report.summary.riskDistribution.critical}</div>
-                <div className="text-sm text-red-600 font-medium">Critical Threats</div>
-              </div>
-            </div>
-            <div className="text-xs text-red-600">
-              High-priority security issues
-            </div>
-          </div>
         </div>
 
-        {/* Risk Distribution & Top Threats */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
-                <span className="text-white text-lg">📊</span>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900">Risk Distribution</h3>
-            </div>
-            <div className="space-y-4">
-              {Object.entries(report.summary.riskDistribution).map(([risk, count]) => {
-                const percentage = report.summary.totalScans > 0 ? (count / report.summary.totalScans) * 100 : 0;
-                return (
-                  <div key={risk} className="group">
-                    <div className="flex justify-between items-center mb-2">
-                      <div className="flex items-center gap-3">
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${getRiskColor(risk)}`}>
-                          {risk.toUpperCase()}
-                        </span>
-                        <span className="text-sm text-gray-600">{count} threats</span>
-                      </div>
-                      <span className="text-sm font-bold text-gray-700">{percentage.toFixed(1)}%</span>
-                    </div>
+            {/* Risk Distribution & Top Threats */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mb-6 sm:mb-8">
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 sm:p-8">
+                <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+                    <span className="text-white text-sm sm:text-lg">📊</span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900">Risk Distribution</h3>
+                </div>
+                <div className="space-y-3 sm:space-y-4">
+                  {Object.entries(report.summary.riskDistribution).map(([risk, count]) => {
+                    const percentage = report.summary.totalScans > 0 ? (count / report.summary.totalScans) * 100 : 0;
+                    return (
+                      <div key={risk} className="group">
+                        <div className="flex justify-between items-center mb-1 sm:mb-2">
+                          <div className="flex items-center gap-2 sm:gap-3">
+                            <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-bold ${getRiskColor(risk)}`}>
+                              {risk.toUpperCase()}
+                            </span>
+                            <span className="text-xs sm:text-sm text-gray-600">{count} threats</span>
+                          </div>
+                          <span className="text-xs sm:text-sm font-bold text-gray-700">{percentage.toFixed(1)}%</span>
+                        </div>
                     <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
                       <div 
                         className={`h-3 rounded-full transition-all duration-700 ${
@@ -396,25 +396,25 @@ export default function SafetyPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center">
-                <span className="text-white text-lg">⚠️</span>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900">Top Threats</h3>
-            </div>
-            <div className="space-y-3">
-              {report.topThreats.slice(0, 5).map((threat, index) => {
-                const maxCount = Math.max(...report.topThreats.map(t => t.count));
-                const percentage = (threat.count / maxCount) * 100;
-                return (
-                  <div key={index} className="group p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors duration-200">
-                    <div className="flex justify-between items-start mb-2">
-                      <span className="text-sm font-medium text-gray-800 flex-1 pr-2">{threat.pattern}</span>
-                      <span className="text-sm font-bold text-red-600 bg-red-200 px-2 py-1 rounded-full">
-                        {threat.count}
-                      </span>
-                    </div>
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 sm:p-8">
+                <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center">
+                    <span className="text-white text-sm sm:text-lg">⚠️</span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900">Top Threats</h3>
+                </div>
+                <div className="space-y-2 sm:space-y-3">
+                  {report.topThreats.slice(0, 5).map((threat, index) => {
+                    const maxCount = Math.max(...report.topThreats.map(t => t.count));
+                    const percentage = (threat.count / maxCount) * 100;
+                    return (
+                      <div key={index} className="group p-3 sm:p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors duration-200">
+                        <div className="flex justify-between items-start mb-1 sm:mb-2">
+                          <span className="text-xs sm:text-sm font-medium text-gray-800 flex-1 pr-2">{threat.pattern}</span>
+                          <span className="text-xs sm:text-sm font-bold text-red-600 bg-red-200 px-2 py-1 rounded-full">
+                            {threat.count}
+                          </span>
+                        </div>
                     <div className="w-full bg-red-200 rounded-full h-2">
                       <div 
                         className="bg-gradient-to-r from-red-400 to-red-500 h-2 rounded-full transition-all duration-500"
@@ -428,84 +428,84 @@ export default function SafetyPage() {
           </div>
         </div>
 
-        {/* Recommendations */}
-        {report.recommendations.length > 0 && (
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 mb-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
-                <span className="text-white text-lg">💡</span>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900">Security Recommendations</h3>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {report.recommendations.map((recommendation, index) => (
-                <div key={index} className="flex items-start gap-3 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 hover:shadow-md transition-shadow duration-200">
-                  <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-white text-xs font-bold">{index + 1}</span>
+            {/* Recommendations */}
+            {report.recommendations.length > 0 && (
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 sm:p-8 mb-6 sm:mb-8">
+                <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
+                    <span className="text-white text-sm sm:text-lg">💡</span>
                   </div>
-                  <span className="text-sm text-blue-800 font-medium">{recommendation}</span>
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900">Security Recommendations</h3>
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+                  {report.recommendations.map((recommendation, index) => (
+                    <div key={index} className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200 hover:shadow-md transition-shadow duration-200">
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span className="text-white text-xs font-bold">{index + 1}</span>
+                      </div>
+                      <span className="text-xs sm:text-sm text-blue-800 font-medium">{recommendation}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
-        {/* Safety Features */}
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center">
-              <span className="text-white text-lg">🛡️</span>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900">Active Safety Features</h3>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="group p-6 bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-xl hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-white text-xl">🔍</span>
+            {/* Safety Features */}
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 sm:p-8">
+              <div className="flex items-center gap-2 sm:gap-3 mb-6 sm:mb-8">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                  <span className="text-white text-sm sm:text-lg">🛡️</span>
+                </div>
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900">Active Safety Features</h3>
               </div>
-              <h4 className="font-bold text-gray-900 mb-2">Content Filtering</h4>
-              <p className="text-sm text-gray-600">Detects harmful, inappropriate, and off-topic content with AI-powered analysis</p>
-            </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="group p-4 sm:p-6 bg-gradient-to-br from-green-50 to-green-100 border border-green-200 rounded-xl hover:shadow-lg transition-all duration-300">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <span className="text-white text-lg sm:text-xl">🔍</span>
+                  </div>
+                  <h4 className="font-bold text-gray-900 mb-2 text-sm sm:text-base">Content Filtering</h4>
+                  <p className="text-xs sm:text-sm text-gray-600">Detects harmful, inappropriate, and off-topic content with AI-powered analysis</p>
+                </div>
             
-            <div className="group p-6 bg-gradient-to-br from-red-50 to-red-100 border border-red-200 rounded-xl hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-white text-xl">🛡️</span>
-              </div>
-              <h4 className="font-bold text-gray-900 mb-2">Prompt Injection Protection</h4>
-              <p className="text-sm text-gray-600">Prevents attempts to manipulate system behavior and bypass safety measures</p>
-            </div>
-            
-            <div className="group p-6 bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-xl hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-white text-xl">🎯</span>
-              </div>
-              <h4 className="font-bold text-gray-900 mb-2">Context Awareness</h4>
-              <p className="text-sm text-gray-600">Ensures responses are relevant to our service scope and business context</p>
-            </div>
-            
-            <div className="group p-6 bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-xl hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-white text-xl">📊</span>
-              </div>
-              <h4 className="font-bold text-gray-900 mb-2">Confidence Scoring</h4>
-              <p className="text-sm text-gray-600">Measures response reliability and safety with advanced confidence metrics</p>
-            </div>
-            
-            <div className="group p-6 bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 rounded-xl hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-white text-xl">⚡</span>
-              </div>
-              <h4 className="font-bold text-gray-900 mb-2">Real-time Monitoring</h4>
-              <p className="text-sm text-gray-600">Continuous threat detection and analysis with live security updates</p>
-            </div>
-            
-            <div className="group p-6 bg-gradient-to-br from-teal-50 to-teal-100 border border-teal-200 rounded-xl hover:shadow-lg transition-all duration-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-teal-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <span className="text-white text-xl">💡</span>
-              </div>
-              <h4 className="font-bold text-gray-900 mb-2">Smart Suggestions</h4>
-              <p className="text-sm text-gray-600">Provides helpful alternatives and guidance for blocked or inappropriate queries</p>
-            </div>
+                <div className="group p-4 sm:p-6 bg-gradient-to-br from-red-50 to-red-100 border border-red-200 rounded-xl hover:shadow-lg transition-all duration-300">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <span className="text-white text-lg sm:text-xl">🛡️</span>
+                  </div>
+                  <h4 className="font-bold text-gray-900 mb-2 text-sm sm:text-base">Prompt Injection Protection</h4>
+                  <p className="text-xs sm:text-sm text-gray-600">Prevents attempts to manipulate system behavior and bypass safety measures</p>
+                </div>
+                
+                <div className="group p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-xl hover:shadow-lg transition-all duration-300">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <span className="text-white text-lg sm:text-xl">🎯</span>
+                  </div>
+                  <h4 className="font-bold text-gray-900 mb-2 text-sm sm:text-base">Context Awareness</h4>
+                  <p className="text-xs sm:text-sm text-gray-600">Ensures responses are relevant to our service scope and business context</p>
+                </div>
+                
+                <div className="group p-4 sm:p-6 bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200 rounded-xl hover:shadow-lg transition-all duration-300">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <span className="text-white text-lg sm:text-xl">📊</span>
+                  </div>
+                  <h4 className="font-bold text-gray-900 mb-2 text-sm sm:text-base">Confidence Scoring</h4>
+                  <p className="text-xs sm:text-sm text-gray-600">Measures response reliability and safety with advanced confidence metrics</p>
+                </div>
+                
+                <div className="group p-4 sm:p-6 bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 rounded-xl hover:shadow-lg transition-all duration-300">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <span className="text-white text-lg sm:text-xl">⚡</span>
+                  </div>
+                  <h4 className="font-bold text-gray-900 mb-2 text-sm sm:text-base">Real-time Monitoring</h4>
+                  <p className="text-xs sm:text-sm text-gray-600">Continuous threat detection and analysis with live security updates</p>
+                </div>
+                
+                <div className="group p-4 sm:p-6 bg-gradient-to-br from-teal-50 to-teal-100 border border-teal-200 rounded-xl hover:shadow-lg transition-all duration-300">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-teal-500 to-teal-600 rounded-xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <span className="text-white text-lg sm:text-xl">💡</span>
+                  </div>
+                  <h4 className="font-bold text-gray-900 mb-2 text-sm sm:text-base">Smart Suggestions</h4>
+                  <p className="text-xs sm:text-sm text-gray-600">Provides helpful alternatives and guidance for blocked or inappropriate queries</p>
+                </div>
           </div>
         </div>
         </div>
