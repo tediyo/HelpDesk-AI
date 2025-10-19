@@ -173,12 +173,12 @@ export default function AdminPage() {
   }, [showQuickLinksModal]);
 
   return (
-        <div className="min-h-screen bg-gray-50 dark:bg-slate-900 flex flex-col">
+        <div className="min-h-screen bg-gray-50 flex flex-col">
           <div className="flex-1 py-4 sm:py-8">
             <div className="max-w-4xl mx-auto px-3 sm:px-4">
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-4 sm:p-6">
+            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 gap-4 sm:gap-0">
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Admin Panel</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Admin Panel</h1>
             <div className="flex items-center gap-3">
               {/* Quick Links Dropdown */}
               <div className="relative">
@@ -261,23 +261,23 @@ export default function AdminPage() {
               {/* Quick Stats */}
               {rateLimitStats && (
                 <div className="mb-6 sm:mb-8">
-                  <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3 sm:mb-4">Quick Stats</h2>
+                  <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">Quick Stats</h2>
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                    <div className="bg-blue-50 dark:bg-blue-900/20 p-3 sm:p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-                      <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">{rateLimitStats.totalRequests}</div>
-                      <div className="text-xs sm:text-sm text-blue-800 dark:text-blue-300">Total Requests</div>
+                    <div className="bg-blue-50 p-3 sm:p-4 rounded-lg border border-blue-200">
+                      <div className="text-xl sm:text-2xl font-bold text-blue-600">{rateLimitStats.totalRequests}</div>
+                      <div className="text-xs sm:text-sm text-blue-800">Total Requests</div>
                     </div>
-                    <div className="bg-green-50 dark:bg-green-900/20 p-3 sm:p-4 rounded-lg border border-green-200 dark:border-green-800">
-                      <div className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">{rateLimitStats.totalAllowed}</div>
-                      <div className="text-xs sm:text-sm text-green-800 dark:text-green-300">Allowed</div>
+                    <div className="bg-green-50 p-3 sm:p-4 rounded-lg border border-green-200">
+                      <div className="text-xl sm:text-2xl font-bold text-green-600">{rateLimitStats.totalAllowed}</div>
+                      <div className="text-xs sm:text-sm text-green-800">Allowed</div>
                     </div>
-                    <div className="bg-red-50 dark:bg-red-900/20 p-3 sm:p-4 rounded-lg border border-red-200 dark:border-red-800">
-                      <div className="text-xl sm:text-2xl font-bold text-red-600 dark:text-red-400">{rateLimitStats.totalBlocked}</div>
-                      <div className="text-xs sm:text-sm text-red-800 dark:text-red-300">Blocked</div>
+                    <div className="bg-red-50 p-3 sm:p-4 rounded-lg border border-red-200">
+                      <div className="text-xl sm:text-2xl font-bold text-red-600">{rateLimitStats.totalBlocked}</div>
+                      <div className="text-xs sm:text-sm text-red-800">Blocked</div>
                     </div>
-                    <div className="bg-purple-50 dark:bg-purple-900/20 p-3 sm:p-4 rounded-lg border border-purple-200 dark:border-purple-800">
-                      <div className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">{rateLimitStats.uniqueIPs}</div>
-                      <div className="text-xs sm:text-sm text-purple-800 dark:text-purple-300">Unique IPs</div>
+                    <div className="bg-purple-50 p-3 sm:p-4 rounded-lg border border-purple-200">
+                      <div className="text-xl sm:text-2xl font-bold text-purple-600">{rateLimitStats.uniqueIPs}</div>
+                      <div className="text-xs sm:text-sm text-purple-800">Unique IPs</div>
                     </div>
                   </div>
                 </div>
@@ -286,35 +286,35 @@ export default function AdminPage() {
           
           {/* Upload Section */}
           <div className="mb-6 sm:mb-8">
-            <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3 sm:mb-4">Upload New Documents</h2>
-            <div className="border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">Upload New Documents</h2>
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6">
               <input
                 id="fileInput"
                 type="file"
                 multiple
                 accept=".md,.txt"
                 onChange={handleFileChange}
-                className="mb-3 sm:mb-4 w-full text-sm text-gray-900 dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900/20 dark:file:text-blue-400 dark:hover:file:bg-blue-900/30"
+                className="mb-3 sm:mb-4 w-full text-sm"
               />
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
                 <button
                   onClick={handleUpload}
                   disabled={uploading || !files || files.length === 0}
-                  className="px-3 sm:px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-sm sm:text-base"
+                  className="px-3 sm:px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-sm sm:text-base"
                 >
                   {uploading ? 'Uploading...' : 'Upload & Re-index'}
                 </button>
                 <button
                   onClick={handleReindex}
                   disabled={uploading}
-                  className="px-3 sm:px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-sm sm:text-base"
+                  className="px-3 sm:px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-sm sm:text-base"
                 >
                   {uploading ? 'Re-indexing...' : 'Re-index Existing Files'}
                 </button>
                 <button
                   onClick={handleRunEvaluation}
                   disabled={runningEval}
-                  className="px-3 sm:px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed text-sm sm:text-base"
+                  className="px-3 sm:px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-sm sm:text-base"
                 >
                   {runningEval ? 'Running...' : 'Run Evaluation'}
                 </button>
@@ -326,8 +326,8 @@ export default function AdminPage() {
           {message && (
             <div className={`mb-6 p-4 rounded-lg ${
               message.includes('Error') || message.includes('failed') 
-                ? 'bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-400 border border-red-200 dark:border-red-800' 
-                : 'bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 border border-green-200 dark:border-green-800'
+                ? 'bg-red-100 text-red-800 border border-red-200' 
+                : 'bg-green-100 text-green-800 border border-green-200'
             }`}>
               {message}
             </div>
@@ -495,26 +495,26 @@ export default function AdminPage() {
 
           {/* Existing Files */}
           <div>
-            <h2 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3 sm:mb-4">Current Knowledge Base</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">Current Knowledge Base</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {existingFiles.map((file, index) => (
-                <div key={index} className="bg-gray-100 dark:bg-slate-700 p-2 sm:p-3 rounded-lg">
+                <div key={index} className="bg-gray-100 p-2 sm:p-3 rounded-lg">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 truncate">{file}</span>
-                    <span className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">✓ Indexed</span>
+                    <span className="text-xs sm:text-sm font-medium text-gray-700 truncate">{file}</span>
+                    <span className="text-xs text-gray-500 flex-shrink-0">✓ Indexed</span>
                   </div>
                 </div>
               ))}
             </div>
             {existingFiles.length === 0 && (
-              <p className="text-gray-500 dark:text-gray-400 italic">No files in knowledge base</p>
+              <p className="text-gray-500 italic">No files in knowledge base</p>
             )}
           </div>
 
           {/* Instructions */}
-          <div className="mt-6 sm:mt-8 p-3 sm:p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-            <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2 text-sm sm:text-base">Instructions:</h3>
-            <ul className="text-xs sm:text-sm text-blue-800 dark:text-blue-300 space-y-1">
+          <div className="mt-6 sm:mt-8 p-3 sm:p-4 bg-blue-50 rounded-lg">
+            <h3 className="font-semibold text-blue-900 mb-2 text-sm sm:text-base">Instructions:</h3>
+            <ul className="text-xs sm:text-sm text-blue-800 space-y-1">
               <li>• Upload .md or .txt files to add them to the knowledge base</li>
               <li>• Files are automatically processed and indexed for search</li>
               <li>• Use "Re-index" to refresh the search index without uploading new files</li>

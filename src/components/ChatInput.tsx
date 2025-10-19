@@ -36,7 +36,7 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Ask a question about our service, pricing, refunds, or getting started..."
-          className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-8 sm:pr-12 border border-gray-300 dark:border-slate-600 rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 bg-white dark:bg-slate-800 text-sm leading-relaxed"
+          className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-8 sm:pr-12 border border-gray-300 rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-gray-900 placeholder-gray-500 text-sm leading-relaxed"
           disabled={disabled}
           rows={1}
           style={{
@@ -50,15 +50,15 @@ export default function ChatInput({ onSendMessage, disabled = false }: ChatInput
             target.style.height = Math.min(target.scrollHeight, 120) + 'px';
           }}
         />
-        <div className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 hidden sm:block">
-          <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
+        {/* <div className="absolute right-2 sm:right-3 top-1/2 transform -translate-y-1/2 hidden sm:block">
+          <div className="flex items-center gap-1 text-xs text-gray-400">
             <span>Press</span>
-            <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded text-xs">Enter</kbd>
+            <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs">Enter</kbd>
             <span>to send,</span>
-            <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-slate-700 rounded text-xs">Shift+Enter</kbd>
+            <kbd className="px-1.5 py-0.5 bg-gray-100 rounded text-xs">Shift+Enter</kbd>
             <span>for new line</span>
           </div>
-        </div>
+        </div> */}
       </div>
       <button
         type="submit"
