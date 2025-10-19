@@ -11,6 +11,7 @@ export default function AdminPage() {
   const [showDetailedResults, setShowDetailedResults] = useState(false);
   const [runningEval, setRunningEval] = useState(false);
   const [rateLimitStats, setRateLimitStats] = useState<any>(null);
+  const [safetyReport, setSafetyReport] = useState<any>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFiles(e.target.files);
@@ -146,10 +147,24 @@ export default function AdminPage() {
     }
   };
 
-  // Load existing files and rate limit stats on component mount
+  const loadSafetyReport = async () => {
+    try {
+      const response = await fetch('/api/analytics/safety');
+      const result = await response.json();
+      
+      if (result.success) {
+        setSafetyReport(result.data);
+      }
+    } catch (error) {
+      console.error('Failed to load safety report:', error);
+    }
+  };
+
+  // Load existing files, rate limit stats, and safety report on component mount
   useState(() => {
     loadExistingFiles();
     loadRateLimitStats();
+    loadSafetyReport();
   });
 
   return (
@@ -158,12 +173,20 @@ export default function AdminPage() {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900">Admin Panel</h1>
-            <a 
-              href="/analytics" 
-              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm"
-            >
-              📊 View Analytics
-            </a>
+            <div className="flex gap-2">
+              <a 
+                href="/safety" 
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm"
+              >
+                🛡️ Safety
+              </a>
+              <a 
+                href="/analytics" 
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm"
+              >
+                📊 Analytics
+              </a>
+            </div>
           </div>
           
           {/* Quick Stats */}
@@ -187,6 +210,123 @@ export default function AdminPage() {
                   <div className="text-2xl font-bold text-purple-600">{rateLimitStats.uniqueIPs}</div>
                   <div className="text-sm text-purple-800">Unique IPs</div>
                 </div>
+              </div>
+            </div>
+          )}
+          
+          {/* Safety Report */}
+          {safetyReport && (
+            <div className="mb-8">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-800">🛡️ Safety Report</h2>
+                <a 
+                  href="/safety" 
+                  className="px-3 py-1 bg-red-600 text-white rounded-md text-sm hover:bg-red-700"
+                >
+                  View Full Dashboard
+                </a>
+              </div>
+              
+              <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-lg border border-red-200 p-6">
+                {/* Safety Overview Cards */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                    <div className="text-2xl font-bold text-green-600">{safetyReport.summary.safetyRate}%</div>
+                    <div className="text-sm text-green-800">Safety Rate</div>
+                    <div className="text-xs text-gray-500">overall safety</div>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                    <div className="text-2xl font-bold text-blue-600">{safetyReport.summary.totalScans}</div>
+                    <div className="text-sm text-blue-800">Total Scans</div>
+                    <div className="text-xs text-gray-500">queries analyzed</div>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                    <div className="text-2xl font-bold text-purple-600">{safetyReport.summary.averageConfidence}%</div>
+                    <div className="text-sm text-purple-800">Avg Confidence</div>
+                    <div className="text-xs text-gray-500">response reliability</div>
+                  </div>
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                    <div className="text-2xl font-bold text-red-600">{safetyReport.summary.riskDistribution.critical}</div>
+                    <div className="text-sm text-red-800">Critical Threats</div>
+                    <div className="text-xs text-gray-500">blocked queries</div>
+                  </div>
+                </div>
+
+                {/* Risk Distribution */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                    <h4 className="font-semibold text-gray-800 mb-3">Risk Distribution</h4>
+                    <div className="space-y-2">
+                      {Object.entries(safetyReport.summary.riskDistribution).map(([risk, count]: [string, any]) => (
+                        <div key={risk} className="flex justify-between items-center py-1">
+                          <div className="flex items-center gap-2">
+                            <span className={`px-2 py-1 rounded text-xs font-medium ${
+                              risk === 'low' ? 'bg-green-100 text-green-800' :
+                              risk === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                              risk === 'high' ? 'bg-orange-100 text-orange-800' :
+                              'bg-red-100 text-red-800'
+                            }`}>
+                              {risk.toUpperCase()}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium">{count}</span>
+                            <div className="w-16 bg-gray-200 rounded-full h-1">
+                              <div 
+                                className={`h-1 rounded-full ${
+                                  risk === 'low' ? 'bg-green-500' :
+                                  risk === 'medium' ? 'bg-yellow-500' :
+                                  risk === 'high' ? 'bg-orange-500' :
+                                  'bg-red-500'
+                                }`}
+                                style={{ 
+                                  width: `${safetyReport.summary.totalScans > 0 ? (count / safetyReport.summary.totalScans) * 100 : 0}%` 
+                                }}
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                    <h4 className="font-semibold text-gray-800 mb-3">Top Threats</h4>
+                    <div className="space-y-2">
+                      {safetyReport.topThreats.slice(0, 5).map((threat: any, index: number) => (
+                        <div key={index} className="flex justify-between items-center py-1 border-b border-gray-100 last:border-b-0">
+                          <span className="text-sm text-gray-700 truncate">{threat.pattern}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-medium text-red-600">{threat.count}</span>
+                            <div className="w-12 bg-gray-200 rounded-full h-1">
+                              <div 
+                                className="bg-red-500 h-1 rounded-full" 
+                                style={{ 
+                                  width: `${Math.max(10, (threat.count / Math.max(...safetyReport.topThreats.map((t: any) => t.count))) * 100)}%` 
+                                }}
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Recommendations */}
+                {safetyReport.recommendations && safetyReport.recommendations.length > 0 && (
+                  <div className="bg-white p-4 rounded-lg shadow-sm border">
+                    <h4 className="font-semibold text-gray-800 mb-3">💡 Recommendations</h4>
+                    <div className="space-y-2">
+                      {safetyReport.recommendations.slice(0, 3).map((recommendation: string, index: number) => (
+                        <div key={index} className="flex items-start gap-2 p-2 bg-blue-50 rounded text-sm">
+                          <span className="text-blue-600">•</span>
+                          <span className="text-blue-800">{recommendation}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}
