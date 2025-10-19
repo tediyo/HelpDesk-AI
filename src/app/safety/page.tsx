@@ -127,6 +127,24 @@ export default function SafetyPage() {
               <p className="text-gray-600 mt-2">AI-powered safety monitoring and threat detection</p>
             </div>
             <div className="flex gap-4">
+              <a 
+                href="/" 
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm"
+              >
+                💬 Chat
+              </a>
+              <a 
+                href="/admin" 
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm"
+              >
+                📋 Admin Panel
+              </a>
+              <a 
+                href="/analytics" 
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm"
+              >
+                📊 Analytics
+              </a>
               <label className="flex items-center">
                 <input
                   type="checkbox"
