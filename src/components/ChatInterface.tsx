@@ -111,13 +111,17 @@ export default function ChatInterface() {
                   )
                 );
               } else if (data.type === 'safety_info') {
+                safetyInfo = data;
                 setMessages(prev => 
                   prev.map((msg, index) => 
                     index === prev.length - 1 && msg.role === 'assistant'
-                      ? { ...msg, safetyInfo: data }
+                      ? { ...msg, safetyInfo }
                       : msg
                   )
                 );
+              } else if (data.type === 'end') {
+                // Stream completed, break out of the loop
+                break;
               }
             } catch (e) {
               console.error('Error parsing chunk:', e);

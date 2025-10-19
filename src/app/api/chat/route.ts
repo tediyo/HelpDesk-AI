@@ -127,6 +127,16 @@ export async function POST(request: NextRequest) {
                 citations: citations
               };
               controller.enqueue(encoder.encode(`data: ${JSON.stringify(citationsData)}\n\n`));
+              
+              // Send end signal
+              const endData = {
+                type: 'end',
+                message: 'Stream completed'
+              };
+              controller.enqueue(encoder.encode(`data: ${JSON.stringify(endData)}\n\n`));
+              
+              // Close the stream
+              controller.close();
               break;
             }
             
