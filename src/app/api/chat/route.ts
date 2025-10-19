@@ -9,9 +9,10 @@ const llmProvider = createLLMProvider();
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting
-    const clientIP = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
-    const rateLimitResult = rateLimiter.isAllowed(clientIP);
+            // Rate limiting
+            const clientIP = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
+            const userAgent = request.headers.get('user-agent') || 'unknown';
+            const rateLimitResult = rateLimiter.isAllowed(clientIP, userAgent);
     
     if (!rateLimitResult.allowed) {
       return new Response(

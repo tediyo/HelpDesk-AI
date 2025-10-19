@@ -10,6 +10,7 @@ export default function AdminPage() {
   const [evaluationResults, setEvaluationResults] = useState<any>(null);
   const [showDetailedResults, setShowDetailedResults] = useState(false);
   const [runningEval, setRunningEval] = useState(false);
+  const [rateLimitStats, setRateLimitStats] = useState<any>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFiles(e.target.files);
@@ -132,16 +133,63 @@ export default function AdminPage() {
     URL.revokeObjectURL(url);
   };
 
-  // Load existing files on component mount
+  const loadRateLimitStats = async () => {
+    try {
+      const response = await fetch('/api/analytics/rate-limits');
+      const result = await response.json();
+      
+      if (result.success) {
+        setRateLimitStats(result.data);
+      }
+    } catch (error) {
+      console.error('Failed to load rate limit stats:', error);
+    }
+  };
+
+  // Load existing files and rate limit stats on component mount
   useState(() => {
     loadExistingFiles();
+    loadRateLimitStats();
   });
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">Admin Panel</h1>
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-3xl font-bold text-gray-900">Admin Panel</h1>
+            <a 
+              href="/analytics" 
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm"
+            >
+              📊 View Analytics
+            </a>
+          </div>
+          
+          {/* Quick Stats */}
+          {rateLimitStats && (
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">Quick Stats</h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                  <div className="text-2xl font-bold text-blue-600">{rateLimitStats.totalRequests}</div>
+                  <div className="text-sm text-blue-800">Total Requests</div>
+                </div>
+                <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+                  <div className="text-2xl font-bold text-green-600">{rateLimitStats.totalAllowed}</div>
+                  <div className="text-sm text-green-800">Allowed</div>
+                </div>
+                <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+                  <div className="text-2xl font-bold text-red-600">{rateLimitStats.totalBlocked}</div>
+                  <div className="text-sm text-red-800">Blocked</div>
+                </div>
+                <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                  <div className="text-2xl font-bold text-purple-600">{rateLimitStats.uniqueIPs}</div>
+                  <div className="text-sm text-purple-800">Unique IPs</div>
+                </div>
+              </div>
+            </div>
+          )}
           
           {/* Upload Section */}
           <div className="mb-8">

@@ -112,16 +112,24 @@ export default function ChatInterface() {
 
   return (
     <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white">
-      {/* Header with admin link */}
-      <div className="flex justify-between items-center p-4 border-b border-gray-200">
-        <h1 className="text-xl font-semibold text-gray-800">HelpDesk AI</h1>
-        <a 
-          href="/admin" 
-          className="text-sm text-blue-600 hover:text-blue-800 underline"
-        >
-          Admin Panel
-        </a>
-      </div>
+              {/* Header with admin and analytics links */}
+              <div className="flex justify-between items-center p-4 border-b border-gray-200">
+                <h1 className="text-xl font-semibold text-gray-800">HelpDesk AI</h1>
+                <div className="flex gap-4">
+                  <a 
+                    href="/analytics" 
+                    className="text-sm text-purple-600 hover:text-purple-800 underline"
+                  >
+                    📊 Analytics
+                  </a>
+                  <a 
+                    href="/admin" 
+                    className="text-sm text-blue-600 hover:text-blue-800 underline"
+                  >
+                    Admin Panel
+                  </a>
+                </div>
+              </div>
       
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 && (
