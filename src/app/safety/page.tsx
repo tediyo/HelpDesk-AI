@@ -213,7 +213,6 @@ export default function SafetyPage() {
                         </div>
                         <div className="flex-1">
                           <div className="font-semibold text-gray-900 text-sm">Chat Interface</div>
-                          <div className="text-xs text-gray-600">Start a conversation with AI</div>
                         </div>
                         <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -230,7 +229,6 @@ export default function SafetyPage() {
                         </div>
                         <div className="flex-1">
                           <div className="font-semibold text-gray-900 text-sm">Admin Panel</div>
-                          <div className="text-xs text-gray-600">Manage documents and settings</div>
                         </div>
                         <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -246,8 +244,7 @@ export default function SafetyPage() {
                           <span className="text-white text-sm">📊</span>
                         </div>
                         <div className="flex-1">
-                          <div className="font-semibold text-gray-900 text-sm">Analytics Dashboard</div>
-                          <div className="text-xs text-gray-600">View performance metrics</div>
+                          <div className="font-semibold text-gray-900 text-sm">Rate LimitAnalytics </div>
                         </div>
                         <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
