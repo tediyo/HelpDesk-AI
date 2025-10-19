@@ -71,6 +71,23 @@ export default function SafetyPage() {
     }
   }, [autoRefresh]);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (showQuickLinksModal) {
+        const target = event.target as Element;
+        if (!target.closest('.relative')) {
+          setShowQuickLinksModal(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showQuickLinksModal]);
+
   const getRiskColor = (risk: string) => {
     switch (risk) {
       case 'low': return 'text-green-600 bg-green-100';
@@ -163,17 +180,84 @@ export default function SafetyPage() {
             </div>
             
             <div className="flex flex-wrap items-center gap-3">
-              {/* Quick Links Card */}
-              <button
-                onClick={() => setShowQuickLinksModal(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl hover:from-indigo-600 hover:to-indigo-700 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
-              >
-                <span>🔗</span>
-                <span>Quick Links</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+              {/* Quick Links Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowQuickLinksModal(!showQuickLinksModal)}
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl hover:from-indigo-600 hover:to-indigo-700 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                >
+                  <span>🔗</span>
+                  <span>Quick Links</span>
+                  <svg className={`w-4 h-4 transition-transform duration-200 ${showQuickLinksModal ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                {/* Dropdown Menu */}
+                {showQuickLinksModal && (
+                  <>
+                    {/* Backdrop for mobile */}
+                    <div 
+                      className="fixed inset-0 z-40 md:hidden"
+                      onClick={() => setShowQuickLinksModal(false)}
+                    ></div>
+                    <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 z-50">
+                    <div className="p-2">
+                      <a 
+                        href="/" 
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-green-50 transition-colors duration-200 group"
+                        onClick={() => setShowQuickLinksModal(false)}
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                          <span className="text-white text-sm">💬</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900 text-sm">Chat Interface</div>
+                          <div className="text-xs text-gray-600">Start a conversation with AI</div>
+                        </div>
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                      
+                      <a 
+                        href="/admin" 
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
+                        onClick={() => setShowQuickLinksModal(false)}
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                          <span className="text-white text-sm">⚙️</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900 text-sm">Admin Panel</div>
+                          <div className="text-xs text-gray-600">Manage documents and settings</div>
+                        </div>
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                      
+                      <a 
+                        href="/analytics" 
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors duration-200 group"
+                        onClick={() => setShowQuickLinksModal(false)}
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                          <span className="text-white text-sm">📊</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900 text-sm">Analytics Dashboard</div>
+                          <div className="text-xs text-gray-600">View performance metrics</div>
+                        </div>
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                    </div>
+                    </div>
+                  </>
+                )}
+              </div>
               
               {/* Control Buttons */}
               <div className="flex items-center gap-2">
@@ -427,85 +511,6 @@ export default function SafetyPage() {
         </div>
       </div>
 
-      {/* Quick Links Modal */}
-      {showQuickLinksModal && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-          onClick={() => setShowQuickLinksModal(false)}
-        >
-          <div 
-            className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-gray-900">Quick Links</h3>
-                <button
-                  onClick={() => setShowQuickLinksModal(false)}
-                  className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200"
-                >
-                  <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-              
-              <div className="space-y-3">
-                <a 
-                  href="/" 
-                  className="flex items-center gap-3 p-4 bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-xl hover:from-green-100 hover:to-green-200 transition-all duration-200 group"
-                  onClick={() => setShowQuickLinksModal(false)}
-                >
-                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                    <span className="text-white text-lg">💬</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">Chat Interface</div>
-                    <div className="text-sm text-gray-600">Start a conversation with our AI assistant</div>
-                  </div>
-                  <svg className="w-5 h-5 text-gray-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
-                
-                <a 
-                  href="/admin" 
-                  className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-xl hover:from-blue-100 hover:to-blue-200 transition-all duration-200 group"
-                  onClick={() => setShowQuickLinksModal(false)}
-                >
-                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                    <span className="text-white text-lg">⚙️</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">Admin Panel</div>
-                    <div className="text-sm text-gray-600">Manage documents and system settings</div>
-                  </div>
-                  <svg className="w-5 h-5 text-gray-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
-                
-                <a 
-                  href="/analytics" 
-                  className="flex items-center gap-3 p-4 bg-gradient-to-r from-purple-50 to-purple-100 border border-purple-200 rounded-xl hover:from-purple-100 hover:to-purple-200 transition-all duration-200 group"
-                  onClick={() => setShowQuickLinksModal(false)}
-                >
-                  <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
-                    <span className="text-white text-lg">📊</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">Analytics Dashboard</div>
-                    <div className="text-sm text-gray-600">View system performance and usage metrics</div>
-                  </div>
-                  <svg className="w-5 h-5 text-gray-400 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
