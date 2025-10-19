@@ -2,12 +2,37 @@ import { NextRequest } from 'next/server';
 import { DocumentRetriever } from '@/lib/retriever';
 import { createLLMProvider } from '@/lib/llm';
 import { ChatRequest, ChatMessage, Citation } from '@/lib/types';
+import { rateLimiter } from '@/lib/rateLimiter';
 
 const retriever = new DocumentRetriever();
 const llmProvider = createLLMProvider();
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const clientIP = request.ip || request.headers.get('x-forwarded-for') || 'unknown';
+    const rateLimitResult = rateLimiter.isAllowed(clientIP);
+    
+    if (!rateLimitResult.allowed) {
+      return new Response(
+        JSON.stringify({
+          error: 'Rate limit exceeded',
+          message: 'Too many requests. Please try again later.',
+          resetTime: rateLimitResult.resetTime
+        }),
+        {
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            'X-RateLimit-Limit': '10',
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': rateLimitResult.resetTime.toString(),
+            'Retry-After': Math.ceil((rateLimitResult.resetTime - Date.now()) / 1000).toString()
+          }
+        }
+      );
+    }
+
     const body: ChatRequest = await request.json();
     const { messages } = body;
 
@@ -77,6 +102,9 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'text/plain; charset=utf-8',
         'Cache-Control': 'no-cache',
         'Connection': 'keep-alive',
+        'X-RateLimit-Limit': '10',
+        'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+        'X-RateLimit-Reset': rateLimitResult.resetTime.toString(),
       },
     });
 
