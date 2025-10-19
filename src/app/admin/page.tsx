@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function AdminPage() {
   const [files, setFiles] = useState<FileList | null>(null);
@@ -11,6 +11,7 @@ export default function AdminPage() {
   const [showDetailedResults, setShowDetailedResults] = useState(false);
   const [runningEval, setRunningEval] = useState(false);
   const [rateLimitStats, setRateLimitStats] = useState<any>(null);
+  const [showQuickLinksModal, setShowQuickLinksModal] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFiles(e.target.files);
@@ -148,10 +149,27 @@ export default function AdminPage() {
 
 
   // Load existing files and rate limit stats on component mount
-  useState(() => {
+  useEffect(() => {
     loadExistingFiles();
     loadRateLimitStats();
-  });
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (showQuickLinksModal) {
+        const target = event.target as Element;
+        if (!target.closest('.relative')) {
+          setShowQuickLinksModal(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showQuickLinksModal]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -159,19 +177,82 @@ export default function AdminPage() {
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-bold text-gray-900">Admin Panel</h1>
-            <div className="flex gap-2">
-              <a 
-                href="/safety" 
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm"
-              >
-                🛡️ Safety
-              </a>
-              <a 
-                href="/analytics" 
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm"
-              >
-                📊 Analytics
-              </a>
+            <div className="flex items-center gap-3">
+              {/* Quick Links Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowQuickLinksModal(!showQuickLinksModal)}
+                  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-xl hover:from-indigo-600 hover:to-indigo-700 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                >
+                  <span>🔗</span>
+                  <span>Quick Links</span>
+                  <svg className={`w-4 h-4 transition-transform duration-200 ${showQuickLinksModal ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                
+                {/* Dropdown Menu */}
+                {showQuickLinksModal && (
+                  <>
+                    {/* Backdrop for mobile */}
+                    <div 
+                      className="fixed inset-0 z-40 md:hidden"
+                      onClick={() => setShowQuickLinksModal(false)}
+                    ></div>
+                    <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 z-50">
+                    <div className="p-2">
+                      <a 
+                        href="/" 
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-green-50 transition-colors duration-200 group"
+                        onClick={() => setShowQuickLinksModal(false)}
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                          <span className="text-white text-sm">💬</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900 text-sm">Chat Interface</div>
+                        </div>
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                      
+                      <a 
+                        href="/safety" 
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-red-50 transition-colors duration-200 group"
+                        onClick={() => setShowQuickLinksModal(false)}
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-red-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                          <span className="text-white text-sm">🛡️</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900 text-sm">Safety Dashboard</div>
+                        </div>
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                      
+                      <a 
+                        href="/analytics" 
+                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors duration-200 group"
+                        onClick={() => setShowQuickLinksModal(false)}
+                      >
+                        <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                          <span className="text-white text-sm">📊</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900 text-sm">Rate Limit Analytics</div>
+                        </div>
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </a>
+                    </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
           

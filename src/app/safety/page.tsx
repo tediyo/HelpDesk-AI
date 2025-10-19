@@ -244,7 +244,7 @@ export default function SafetyPage() {
                           <span className="text-white text-sm">📊</span>
                         </div>
                         <div className="flex-1">
-                          <div className="font-semibold text-gray-900 text-sm">Rate LimitAnalytics </div>
+                          <div className="font-semibold text-gray-900 text-sm">Rate Limit Analytics </div>
                         </div>
                         <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
