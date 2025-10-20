@@ -142,7 +142,7 @@ export default function ChatInterface() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+    <div className="flex flex-col flex-1 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
       {/* Professional Header */}
       <div className="bg-white dark:bg-slate-900 shadow-sm border-b border-gray-200 dark:border-slate-700">
         <div className="max-w-6xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
@@ -183,7 +183,7 @@ export default function ChatInterface() {
       
       {/* Chat Container */}
       <div className="flex-1 max-w-6xl mx-auto w-full flex flex-col">
-        <div className="flex-1 overflow-y-auto px-3 sm:px-4 py-4 sm:py-6">
+        <div className="flex-1 overflow-y-auto px-3 sm:px-4 py-4 sm:py-6 bg-transparent">
           {messages.length === 0 && (
             <div className="text-center py-8 sm:py-12">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
@@ -220,26 +220,28 @@ export default function ChatInterface() {
             </div>
           )}
           
-          <div className="space-y-6">
-            {messages.map((message, index) => (
-              <ChatMessage key={index} message={message} />
-            ))}
-          </div>
+          {messages.length > 0 && (
+            <div className="space-y-6">
+              {messages.map((message, index) => (
+                <ChatMessage key={index} message={message} />
+              ))}
+            </div>
+          )}
           
-              {isLoading && (
-                <div className="flex justify-start">
-                  <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-2xl px-6 py-4 shadow-sm">
-                    <div className="flex items-center space-x-2">
-                      <div className="flex space-x-1">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                      </div>
-                      <span className="text-sm text-gray-600 dark:text-gray-400 font-medium">AI is thinking...</span>
-                    </div>
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-2xl px-6 py-4 shadow-sm">
+                <div className="flex items-center space-x-2">
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   </div>
+                  <span className="text-sm text-gray-600 dark:text-gray-400 font-medium">AI is thinking...</span>
                 </div>
-              )}
+              </div>
+            </div>
+          )}
           
           <div ref={messagesEndRef} />
         </div>
