@@ -72,6 +72,7 @@ export default function ChatInterface() {
 
       let assistantContent = '';
       let citations: Citation[] = [];
+      let safetyInfo: any = undefined;
 
       const assistantMessage: ChatMessageType = {
         role: 'assistant',
