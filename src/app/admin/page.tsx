@@ -174,7 +174,7 @@ export default function AdminPage() {
   }, [showQuickLinksModal]);
 
   return (
-        <div className="min-h-screen bg-gray-50 dark:bg-slate-900 flex flex-col">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex flex-col">
           <div className="flex-1 py-4 sm:py-8">
             <div className="max-w-4xl mx-auto px-3 sm:px-4">
             <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-4 sm:p-6">
@@ -359,59 +359,59 @@ export default function AdminPage() {
               <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-200 p-4 sm:p-6">
                 {/* Summary Cards */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
-                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border">
+                  <div className="bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700">
                     <div className="text-xl sm:text-2xl font-bold text-green-600">{evaluationResults.summary.passedTests}</div>
-                    <div className="text-xs sm:text-sm text-gray-600">Tests Passed</div>
-                    <div className="text-xs text-gray-500">out of {evaluationResults.summary.totalTests}</div>
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Tests Passed</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-500">out of {evaluationResults.summary.totalTests}</div>
                   </div>
-                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border">
+                  <div className="bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700">
                     <div className="text-xl sm:text-2xl font-bold text-blue-600">{evaluationResults.summary.successRate}%</div>
-                    <div className="text-xs sm:text-sm text-gray-600">Success Rate</div>
-                    <div className="text-xs text-gray-500">overall performance</div>
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Success Rate</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-500">overall performance</div>
                   </div>
-                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border">
+                  <div className="bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700">
                     <div className="text-xl sm:text-2xl font-bold text-purple-600">{evaluationResults.summary.avgResponseTime}ms</div>
-                    <div className="text-xs sm:text-sm text-gray-600">Avg Response Time</div>
-                    <div className="text-xs text-gray-500">retrieval + generation</div>
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Avg Response Time</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-500">retrieval + generation</div>
                   </div>
-                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border">
+                  <div className="bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700">
                     <div className="text-xl sm:text-2xl font-bold text-orange-600">{Math.round(evaluationResults.summary.avgConfidenceScore * 100)}%</div>
-                    <div className="text-xs sm:text-sm text-gray-600">Confidence Score</div>
-                    <div className="text-xs text-gray-500">response quality</div>
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Confidence Score</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-500">response quality</div>
                   </div>
                 </div>
 
                 {/* Performance Metrics */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
                   {/* Category Breakdown */}
-                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border">
-                    <h4 className="font-semibold text-gray-800 mb-2 sm:mb-3 text-sm sm:text-base">Performance by Category</h4>
+                  <div className="bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700">
+                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2 sm:mb-3 text-sm sm:text-base">Performance by Category</h4>
                     {Object.entries(evaluationResults.summary.categoryStats || {}).map(([category, stats]: [string, any]) => (
-                      <div key={category} className="flex justify-between items-center py-1.5 sm:py-2 border-b border-gray-100 last:border-b-0">
+                      <div key={category} className="flex justify-between items-center py-1.5 sm:py-2 border-b border-gray-100 dark:border-slate-600 last:border-b-0">
                         <div>
-                          <span className="font-medium capitalize text-xs sm:text-sm">{category}</span>
-                          <div className="text-xs text-gray-500">{stats.passed}/{stats.total} tests</div>
+                          <span className="font-medium capitalize text-xs sm:text-sm text-gray-800 dark:text-gray-200">{category}</span>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">{stats.passed}/{stats.total} tests</div>
                         </div>
                         <div className="text-right">
-                          <div className="text-xs sm:text-sm font-medium">{stats.successRate}%</div>
-                          <div className="text-xs text-gray-500">{stats.avgTime}ms avg</div>
+                          <div className="text-xs sm:text-sm font-medium text-green-600">{stats.successRate}%</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">{stats.avgTime}ms avg</div>
                         </div>
                       </div>
                     ))}
                   </div>
 
                   {/* Difficulty Breakdown */}
-                  <div className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border">
-                    <h4 className="font-semibold text-gray-800 mb-2 sm:mb-3 text-sm sm:text-base">Performance by Difficulty</h4>
+                  <div className="bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700">
+                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2 sm:mb-3 text-sm sm:text-base">Performance by Difficulty</h4>
                     {Object.entries(evaluationResults.summary.difficultyStats || {}).map(([difficulty, stats]: [string, any]) => (
-                      <div key={difficulty} className="flex justify-between items-center py-1.5 sm:py-2 border-b border-gray-100 last:border-b-0">
+                      <div key={difficulty} className="flex justify-between items-center py-1.5 sm:py-2 border-b border-gray-100 dark:border-slate-600 last:border-b-0">
                         <div>
-                          <span className="font-medium capitalize text-xs sm:text-sm">{difficulty}</span>
-                          <div className="text-xs text-gray-500">{stats.passed}/{stats.total} tests</div>
+                          <span className="font-medium capitalize text-xs sm:text-sm text-gray-800 dark:text-gray-200">{difficulty}</span>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">{stats.passed}/{stats.total} tests</div>
                         </div>
                         <div className="text-right">
-                          <div className="text-xs sm:text-sm font-medium">{stats.successRate}%</div>
-                          <div className="text-xs text-gray-500">{stats.avgTime}ms avg</div>
+                          <div className="text-xs sm:text-sm font-medium text-green-600">{stats.successRate}%</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">{stats.avgTime}ms avg</div>
                         </div>
                       </div>
                     ))}
@@ -441,15 +441,15 @@ export default function AdminPage() {
                 {/* Detailed Results */}
                 {showDetailedResults && (
                   <div className="mt-4 sm:mt-6">
-                    <h4 className="font-semibold text-gray-800 mb-3 sm:mb-4 text-sm sm:text-base">Detailed Test Results</h4>
+                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3 sm:mb-4 text-sm sm:text-base">Detailed Test Results</h4>
                     <div className="space-y-3 sm:space-y-4">
                       {evaluationResults.results.map((result: any, index: number) => (
-                        <div key={index} className="bg-white p-3 sm:p-4 rounded-lg border shadow-sm">
+                        <div key={index} className="bg-white dark:bg-slate-800 p-3 sm:p-4 rounded-lg border border-gray-200 dark:border-slate-700 shadow-sm">
                           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-2 sm:gap-0">
                             <div className="flex-1">
-                              <p className="font-medium text-gray-800 text-sm sm:text-base">{result.question}</p>
-                              <p className="text-xs sm:text-sm text-gray-600 mb-2">{result.description}</p>
-                              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 text-xs">
+                              <p className="font-medium text-gray-800 dark:text-gray-200 text-sm sm:text-base">{result.question}</p>
+                              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">{result.description}</p>
+                              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 text-xs text-gray-700 dark:text-gray-300">
                                 <div>
                                   <span className="font-medium">Category:</span> {result.category}
                                 </div>
@@ -470,19 +470,19 @@ export default function AdminPage() {
                               }`}>
                                 {result.success ? 'PASS' : 'FAIL'}
                               </span>
-                              <div className="text-xs text-gray-500">
+                              <div className="text-xs text-gray-500 dark:text-gray-400">
                                 Score: {Math.round(((result.performanceScore + result.confidenceScore + result.sourceRelevanceScore) / 3) * 100)}%
                               </div>
                             </div>
                           </div>
-                          <div className="mt-3 pt-3 border-t border-gray-100">
-                            <div className="text-xs text-gray-600 mb-1">
+                          <div className="mt-3 pt-3 border-t border-gray-100 dark:border-slate-600">
+                            <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">
                               <span className="font-medium">Expected Sources:</span> {result.expectedSources.join(', ')}
                             </div>
-                            <div className="text-xs text-gray-600">
+                            <div className="text-xs text-gray-600 dark:text-gray-400">
                               <span className="font-medium">Found Sources:</span> {result.sourcesFound.join(', ')}
                             </div>
-                            <div className="text-xs text-gray-600 mt-1">
+                            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                               <span className="font-medium">Response:</span> {result.response}
                             </div>
                           </div>

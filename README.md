@@ -163,10 +163,7 @@ npm run build
 2. Start the production server:
 ```bash
 npm start
-```
+`````
+``````
 
-3. Set environment variables in your deployment platform
 
-## License
-
-MIT License - see LICENSE file for details

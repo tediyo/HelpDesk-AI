@@ -155,7 +155,7 @@ export default function SafetyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-red-50 dark:from-slate-900 dark:to-red-900/20 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex flex-col">
       <div className="flex-1">
         <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
             {/* Professional Header */}
