@@ -143,7 +143,7 @@ export default function ChatInterface() {
   };
 
   return (
-    <div className="flex flex-col flex-1 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
+    <div className="flex flex-col flex-1">
       {/* Professional Header */}
       <div className="bg-white dark:bg-slate-900 shadow-sm border-b border-gray-200 dark:border-slate-700">
         <div className="max-w-6xl mx-auto px-3 sm:px-4 py-3 sm:py-4">

@@ -174,7 +174,7 @@ export default function AdminPage() {
   }, [showQuickLinksModal]);
 
   return (
-        <div className="min-h-screen bg-gray-50 dark:bg-slate-900 flex flex-col">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800 flex flex-col">
           <div className="flex-1 py-4 sm:py-8">
             <div className="max-w-4xl mx-auto px-3 sm:px-4">
             <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-4 sm:p-6">
