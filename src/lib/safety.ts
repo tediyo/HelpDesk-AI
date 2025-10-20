@@ -168,7 +168,7 @@ class SafetyGuard {
       confidenceScores.push(result.confidence);
       
       if (!result.safe) {
-        reasons.push(result.reason || `${rule.name} check failed`);
+        reasons.push((result as any).reason || `${rule.name} check failed`);
         if (maxRiskLevel === 'low') maxRiskLevel = 'medium';
       }
     }
