@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
       console.log(`Retrieved ${searchResults.length} results in ${retrievalTime}ms`);
       
       // Log sources found
-      const sourcesFound = [...new Set(searchResults.map(r => r.document.filename))];
+      const sourcesFound = Array.from(new Set(searchResults.map(r => r.document.filename)));
       console.log(`Sources found: ${sourcesFound.join(', ')}`);
       
       // Check if expected sources were found
