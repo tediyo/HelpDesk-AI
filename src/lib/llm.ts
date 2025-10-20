@@ -142,7 +142,28 @@ Answer:`;
       throw new Error(`OpenAI API error: ${response.statusText}`);
     }
 
-    return response.body!;
+    // Transform ReadableStream<Uint8Array> to ReadableStream<string>
+    return new ReadableStream({
+      start(controller) {
+        const reader = response.body!.getReader();
+        const decoder = new TextDecoder();
+        
+        function pump(): Promise<void> {
+          return reader.read().then(({ done, value }) => {
+            if (done) {
+              controller.close();
+              return;
+            }
+            
+            const chunk = decoder.decode(value, { stream: true });
+            controller.enqueue(chunk);
+            return pump();
+          });
+        }
+        
+        return pump();
+      }
+    });
   }
 }
 
