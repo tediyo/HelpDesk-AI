@@ -183,7 +183,7 @@ export async function GET(request: NextRequest) {
     const avgSourceRelevanceScore = results.reduce((sum, r) => sum + r.sourceRelevanceScore, 0) / totalTests;
     
     // Category breakdown
-    const categoryStats: Record<string, { total: number; passed: number; avgTime: number; avgConfidence: number }> = results.reduce((acc, result) => {
+    const categoryStats: Record<string, { total: number; passed: number; avgTime: number; avgConfidence: number; successRate?: number }> = results.reduce((acc, result) => {
       const category = result.category;
       if (!acc[category]) {
         acc[category] = { total: 0, passed: 0, avgTime: 0, avgConfidence: 0 };
@@ -193,7 +193,7 @@ export async function GET(request: NextRequest) {
       acc[category].avgTime += result.totalTime;
       acc[category].avgConfidence += result.confidenceScore;
       return acc;
-    }, {} as Record<string, { total: number; passed: number; avgTime: number; avgConfidence: number }>);
+    }, {} as Record<string, { total: number; passed: number; avgTime: number; avgConfidence: number; successRate?: number }>);
     
     // Calculate category averages
     Object.keys(categoryStats).forEach(category => {
@@ -204,7 +204,7 @@ export async function GET(request: NextRequest) {
     });
     
     // Difficulty breakdown
-    const difficultyStats: Record<string, { total: number; passed: number; avgTime: number; avgConfidence: number }> = results.reduce((acc, result) => {
+    const difficultyStats: Record<string, { total: number; passed: number; avgTime: number; avgConfidence: number; successRate?: number }> = results.reduce((acc, result) => {
       const difficulty = result.difficulty;
       if (!acc[difficulty]) {
         acc[difficulty] = { total: 0, passed: 0, avgTime: 0, avgConfidence: 0 };
@@ -214,7 +214,7 @@ export async function GET(request: NextRequest) {
       acc[difficulty].avgTime += result.totalTime;
       acc[difficulty].avgConfidence += result.confidenceScore;
       return acc;
-    }, {} as Record<string, { total: number; passed: number; avgTime: number; avgConfidence: number }>);
+    }, {} as Record<string, { total: number; passed: number; avgTime: number; avgConfidence: number; successRate?: number }>);
     
     // Calculate difficulty averages
     Object.keys(difficultyStats).forEach(difficulty => {
