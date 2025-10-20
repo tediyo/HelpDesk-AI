@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Footer from '@/components/Footer';
+import ThemeToggle from '@/components/ThemeToggle';
 
 interface RateLimitAnalytics {
   totalRequests: number;
@@ -140,17 +141,18 @@ export default function AnalyticsPage() {
   }
 
   return (
-        <div className="min-h-screen bg-gray-50 flex flex-col">
-          <div className="flex-1 py-4 sm:py-8">
-            <div className="max-w-7xl mx-auto px-3 sm:px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 flex flex-col">
+      <div className="flex-1 py-4 sm:py-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4">
             {/* Header */}
-            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
+            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 sm:gap-0">
                 <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Rate Limit Analytics</h1>
-                  <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">Real-time monitoring and usage statistics</p>
+                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Rate Limit Analytics</h1>
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1 sm:mt-2">Real-time monitoring and usage statistics</p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+                  <ThemeToggle />
                   {/* Quick Links Dropdown */}
                   <div className="relative">
                     <button

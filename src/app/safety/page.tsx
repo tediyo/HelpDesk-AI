@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Footer from '@/components/Footer';
+import ThemeToggle from '@/components/ThemeToggle';
 
 interface SafetyReport {
   summary: {
@@ -154,19 +155,19 @@ export default function SafetyPage() {
   }
 
   return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-red-50 flex flex-col">
-          <div className="flex-1">
-            <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-red-50 dark:from-slate-900 dark:to-red-900/20 flex flex-col">
+      <div className="flex-1">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
             {/* Professional Header */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 sm:p-8 mb-6 sm:mb-8">
+            <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-gray-200 dark:border-slate-700 p-4 sm:p-8 mb-6 sm:mb-8">
               <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 sm:gap-6">
                 <div className="flex items-center space-x-3 sm:space-x-4">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-2xl flex items-center justify-center shadow-lg">
                     <span className="text-white text-xl sm:text-2xl">🛡️</span>
                   </div>
                   <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Safety Dashboard</h1>
-                    <p className="text-sm sm:text-base text-gray-600 mt-1">AI-powered safety monitoring and threat detection system</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Safety Dashboard</h1>
+                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1">AI-powered safety monitoring and threat detection system</p>
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mt-2 sm:mt-3">
                       <div className="flex items-center gap-2">
                         <div className={`w-3 h-3 rounded-full ${autoRefresh ? 'bg-green-500' : 'bg-gray-400'}`}></div>
@@ -182,6 +183,7 @@ export default function SafetyPage() {
                 </div>
             
                 <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 sm:gap-3">
+                  <ThemeToggle />
                   {/* Quick Links Dropdown */}
                   <div className="relative">
                     <button
