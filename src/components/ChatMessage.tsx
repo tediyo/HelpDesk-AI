@@ -9,7 +9,7 @@ interface ChatMessageProps {
 export default function ChatMessage({ message }: ChatMessageProps) {
   return (
     <div className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} mb-4 sm:mb-6`}>
-      <div className={`flex items-start space-x-2 sm:space-x-3 max-w-full sm:max-w-3xl ${message.role === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
+      <div className={`flex items-start max-w-full sm:max-w-3xl ${message.role === 'user' ? 'flex-row-reverse' : ''}`}>
         {/* Avatar */}
         <div className={`flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
           message.role === 'user' 
@@ -20,7 +20,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
         </div>
         
         {/* Message Content */}
-        <div className={`flex-1 ${message.role === 'user' ? 'text-right' : 'text-left'}`}>
+        <div className={`flex-1 ${message.role === 'user' ? 'text-right' : 'text-left'} ${message.role === 'user' ? 'mr-2 sm:mr-3' : 'ml-2 sm:ml-3'}`}>
            <div className={`inline-block ${
              message.role === 'user'
                ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white'
