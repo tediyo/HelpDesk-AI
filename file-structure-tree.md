@@ -8,8 +8,7 @@ helpdesk-ai/
 │   ├── 📄 getting-started.md         # User onboarding guide
 │   ├── 📄 pricing.md                 # Pricing plans and tiers
 │   ├── 📄 refunds.md                 # Refund policy information
-│   ├── 📄 Munichen.md                # Additional content
-│   └── 📄 Teddy.md                   # Additional content
+│                  
 │
 ├── 📁 src/                           # Source code
 │   ├── 📁 app/                       # Next.js App Router

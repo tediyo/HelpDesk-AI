@@ -356,10 +356,12 @@ src/__tests__/
 - Recommendations
 
 ### System Evaluation
-- Automated testing
-- Performance benchmarking
-- Quality metrics
-- Detailed reporting
+- **Comprehensive Testing**: 6 test categories with automated questions
+- **Performance Benchmarking**: Response time, confidence scores, source relevance
+- **Quality Metrics**: Success rates, category breakdowns, difficulty analysis
+- **Detailed Reporting**: Export functionality, visual dashboards, best/worst test identification
+- **Real-time Monitoring**: Live evaluation results in admin panel
+- **Export Capabilities**: JSON report downloads with timestamps
 
 ---
 
@@ -373,7 +375,16 @@ src/__tests__/
 
 ### Test Files
 - `retriever.test.ts` - Document retrieval tests
-- Additional test scripts in root directory
+- `test-api.js` - API endpoint testing with streaming
+- `test-debug.js` - Data directory and file system testing
+- `test-retriever.js` - Document retrieval system testing
+
+### Evaluation System
+- **Admin Panel Integration**: Run evaluation button with real-time results
+- **Comprehensive Test Suite**: 6 test categories covering all major functionality
+- **Performance Metrics**: Response time, confidence scores, source relevance
+- **Visual Analytics**: Charts, breakdowns, and detailed reporting
+- **Export Functionality**: JSON report downloads for analysis
 
 ---
 
@@ -434,6 +445,85 @@ src/__tests__/
 - Separation of concerns
 - Reusable components
 - Type safety throughout
+
+---
+
+## 🔬 Evaluation System
+
+The HelpDesk AI project includes a comprehensive evaluation system for testing, monitoring, and improving system performance.
+
+### Admin Panel Evaluation Features
+
+**Run Evaluation Button**
+- Located in the admin panel (`/admin`)
+- Triggers comprehensive system testing
+- Real-time progress indication
+- Results displayed immediately
+
+**Evaluation Results Display**
+- **Summary Cards**: Tests passed, success rate, avg response time, confidence score
+- **Category Breakdown**: Performance by test category (pricing, getting-started, refunds, etc.)
+- **Difficulty Analysis**: Performance by difficulty level (easy, medium, hard)
+- **Best/Worst Tests**: Identification of top and bottom performing tests
+- **Detailed Results**: Expandable view with individual test results
+
+**Export Functionality**
+- Download evaluation reports as JSON
+- Timestamped reports for tracking
+- Complete test data and metrics
+- Easy sharing and analysis
+
+### Evaluation API (`/api/eval`)
+
+**Test Categories (6 total)**
+1. **Pricing** - Tests pricing information retrieval
+2. **Getting Started** - Tests onboarding and API key information
+3. **Refunds** - Tests refund policy information
+4. **General** - Tests general service information
+5. **Complex** - Tests multi-topic queries
+6. **Edge Case** - Tests guardrails and out-of-scope queries
+
+**Performance Metrics**
+- **Response Time**: Total time for retrieval + generation
+- **Retrieval Time**: Time to find relevant documents
+- **Confidence Score**: Response quality assessment
+- **Source Relevance**: Accuracy of document matching
+- **Success Rate**: Percentage of tests passed
+
+**Comprehensive Reporting**
+- Category and difficulty breakdowns
+- Best and worst performing tests
+- Overall system health assessment
+- Detailed individual test results
+
+### Test Scripts
+
+**`test-api.js`**
+- API endpoint testing with streaming
+- Tests chat functionality
+- Validates response format
+- Error handling verification
+
+**`test-debug.js`**
+- Data directory validation
+- File system testing
+- Document loading verification
+- Content preview functionality
+
+**`test-retriever.js`**
+- Document retrieval system testing
+- Paragraph extraction testing
+- Content processing validation
+- Independent retriever testing
+
+### Evaluation Workflow
+
+1. **Trigger**: Admin clicks "Run Evaluation" button
+2. **Execution**: System runs 6 predefined test questions
+3. **Analysis**: Each test is scored and categorized
+4. **Reporting**: Results are compiled and displayed
+5. **Export**: Optional JSON report download
+6. **Monitoring**: Results stored for trend analysis
 
 ---
 
