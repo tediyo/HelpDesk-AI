@@ -44,6 +44,15 @@ const testQuestions = [
     expectedResponseTime: 2000
   },
   {
+    id: 'general',
+    question: 'Do you offer a sport materials?',
+    expectedSources: ['pricing.md'],
+    description: 'Should find general service information',
+    category: 'complex',
+    difficulty: 'easy',
+    expectedResponseTime: 2000
+  },
+  {
     id: 'complex',
     question: 'I need help with both pricing and getting started with API keys',
     expectedSources: ['pricing.md', 'getting-started.md'],
