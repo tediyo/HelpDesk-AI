@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
         ? expectedSourcesFound.length / test.expectedSources.length 
         : 1;
       
-      // Generate response with timing
+      // Generate response with  timing
       const responseStartTime = Date.now();
       const citations = searchResults.map(result => ({
         filename: result.document.filename,
