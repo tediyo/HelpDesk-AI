@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
 import ThemeToggle from './ThemeToggle';
@@ -149,8 +150,27 @@ export default function ChatInterface() {
         <div className="max-w-6xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0">
             <div className="flex items-center space-x-2 sm:space-x-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm sm:text-lg">AI</span>
+              <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
+                <Image
+                  src="/logo.png"
+                  alt="HelpDesk AI Logo"
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                  priority
+                  onError={(e) => {
+                    // Fallback to gradient if logo doesn't exist
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const fallback = target.parentElement?.querySelector('.logo-fallback');
+                    if (fallback) {
+                      (fallback as HTMLElement).style.display = 'flex';
+                    }
+                  }}
+                />
+                <div className="logo-fallback hidden w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg items-center justify-center absolute inset-0">
+                  <span className="text-white font-bold text-sm sm:text-lg">AI</span>
+                </div>
               </div>
                 <div>
                   <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">HelpDesk AI</h1>

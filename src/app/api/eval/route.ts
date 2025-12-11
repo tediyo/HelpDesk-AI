@@ -1,9 +1,7 @@
 import { NextRequest } from 'next/server';
 import { DocumentRetriever } from '@/lib/retriever';
-import { createLLMProvider } from '@/lib/llm';
 
 const retriever = new DocumentRetriever();
-const llmProvider = createLLMProvider();
 
 // Enhanced test questions for evaluation
 const testQuestions = [
