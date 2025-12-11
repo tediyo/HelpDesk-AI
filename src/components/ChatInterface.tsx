@@ -149,14 +149,14 @@ export default function ChatInterface() {
       <div className="bg-white dark:bg-slate-900 shadow-sm border-b border-gray-200 dark:border-slate-700">
         <div className="max-w-6xl mx-auto px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0">
-            <div className="flex items-center space-x-2 sm:space-x-3">
-              <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
+            <div className="flex items-center space-x-3 sm:space-x-4">
+              <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
                 <Image
                   src="/logo.png"
                   alt="HelpDesk AI Logo"
-                  width={40}
-                  height={40}
-                  className="object-contain"
+                  width={48}
+                  height={48}
+                  className="object-contain w-full h-full"
                   priority
                   onError={(e) => {
                     // Fallback to gradient if logo doesn't exist
@@ -168,12 +168,16 @@ export default function ChatInterface() {
                     }
                   }}
                 />
-                <div className="logo-fallback hidden w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg items-center justify-center absolute inset-0">
-                  <span className="text-white font-bold text-sm sm:text-lg">AI</span>
+                <div className="logo-fallback hidden w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg items-center justify-center absolute inset-0">
+                  <span className="text-white font-bold text-base sm:text-xl">AI</span>
                 </div>
               </div>
                 <div>
-                  <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">HelpDesk AI</h1>
+                  <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white flex items-center">
+                    <span className="hidden sm:inline-block mr-2">HelpDesk</span>
+                    <span className="sm:hidden">HD</span>
+                    <span className="ml-1 sm:ml-0">AI</span>
+                  </h1>
                   <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 hidden sm:block">Intelligent Customer Support Assistant</p>
                 </div>
               </div>
